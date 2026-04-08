@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumière Hair Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#faf6f0;
+  --warm-white:#fff9f4;
+  --gold:#c9a96e;
+  --gold-light:#e8d5b0;
+  --gold-dark:#a07840;
+  --brown:#2c1e0f;
+  --brown-mid:#5c3d1e;
+  --taupe:#8a7560;
+  --rose:#d4a0a0;
+  --charcoal:#1a1410;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Jost',sans-serif;
+}
+html{scroll-snap-type:y mandatory;overflow-y:scroll;scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--brown);font-family:var(--sans);font-weight:300;cursor:none;}
+
+/* Cursor */
+.cur{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s;}
+.cur-r{position:fixed;width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .25s cubic-bezier(.23,1,.32,1),top .25s cubic-bezier(.23,1,.32,1),width .3s,height .3s;opacity:.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 4rem;background:rgba(250,246,240,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,169,110,.2);}
+.nav-logo{font-family:var(--serif);font-size:1.35rem;font-style:italic;color:var(--brown);text-decoration:none;letter-spacing:.02em;}
+.nav-logo span{color:var(--gold);font-style:normal;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-family:var(--sans);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-book{background:var(--gold);color:var(--warm-white)!important;padding:.55rem 1.4rem;border-radius:2px;transition:background .2s!important;}
+.nav-book:hover{background:var(--gold-dark)!important;color:var(--warm-white)!important;}
+
+/* Scroll dots */
+.sdots{position:fixed;right:1.8rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:400;}
+.sdot{width:5px;height:5px;border-radius:50%;background:var(--gold-light);transition:all .3s;cursor:none;}
+.sdot.active{background:var(--gold);transform:scale(1.7);}
+
+/* SECTIONS */
+section{scroll-snap-align:start;min-height:100vh;position:relative;overflow:hidden;}
+
+/* ── HERO ── */
+#hero{display:grid;grid-template-columns:1fr 1fr;background:var(--brown);height:100vh;min-height:unset;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:6rem 4rem 3rem;position:relative;z-index:2;overflow:hidden;}
+.hero-tag{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem;}
+.hero-tag::before{content:'';display:block;width:28px;height:1px;background:var(--gold);}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.4rem,4vw,4.2rem);font-weight:400;line-height:1.05;color:var(--cream);letter-spacing:-.01em;margin-bottom:1rem;}
+.hero-h1 em{font-style:italic;color:var(--gold);}
+.hero-sub{font-size:.88rem;line-height:1.8;color:rgba(250,246,240,.6);max-width:380px;margin-bottom:1.6rem;}
+.hero-actions{display:flex;gap:1rem;align-items:center;}
+.btn-primary{background:var(--gold);color:var(--brown);padding:.75rem 2rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .2s;}
+.btn-primary:hover{background:var(--gold-dark);}
+.btn-ghost{color:var(--gold-light);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:.6rem;transition:color .2s;}
+.btn-ghost:hover{color:var(--gold);}
+.btn-ghost::after{content:'→';}
+.hero-stats{display:flex;gap:2.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(201,169,110,.2);}
+.hero-stat-n{font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--gold);line-height:1;}
+.hero-stat-l{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,246,240,.45);margin-top:.25rem;}
+.hero-right{position:relative;overflow:hidden;}
+.hero-right img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:brightness(.8);}
+.hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--brown) 0%,transparent 30%);}
+.hero-scroll{position:absolute;bottom:2.5rem;left:5rem;display:flex;align-items:center;gap:.8rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,246,240,.4);}
+.hero-scroll::before{content:'';display:block;width:1px;height:40px;background:var(--gold);opacity:.4;}
+
+/* ── ABOUT ── */
+#about{background:var(--warm-white);display:flex;align-items:center;}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;height:100vh;}
+.about-img-wrap{position:relative;overflow:hidden;}
+.about-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.about-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,169,110,.15) 0%,transparent 60%);}
+.about-badge{position:absolute;bottom:3rem;right:-1.5rem;background:var(--gold);color:var(--brown);padding:1.5rem;text-align:center;width:140px;}
+.about-badge-n{font-family:var(--serif);font-size:2.2rem;font-weight:400;}
+.about-badge-l{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;margin-top:.2rem;}
+.about-content{display:flex;flex-direction:column;justify-content:center;padding:6rem 5rem 6rem 5rem;}
+.section-tag{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:.8rem;}
+.section-tag::before{content:'';display:block;width:28px;height:1px;background:var(--gold);}
+.about-h2{font-family:var(--serif);font-size:clamp(2.2rem,3.5vw,3.5rem);font-weight:400;line-height:1.15;color:var(--brown);margin-bottom:1.8rem;}
+.about-h2 em{font-style:italic;color:var(--gold);}
+.about-p{font-size:.98rem;line-height:1.9;color:var(--taupe);margin-bottom:1.2rem;}
+.about-pillars{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--gold-light);margin-top:2.5rem;}
+.about-pillar{background:var(--warm-white);padding:1.4rem;transition:background .3s;}
+.about-pillar:hover{background:var(--cream);}
+.pillar-icon{font-size:1.4rem;margin-bottom:.6rem;}
+.pillar-name{font-size:.85rem;font-weight:500;color:var(--brown);margin-bottom:.25rem;}
+.pillar-desc{font-size:.75rem;color:var(--taupe);line-height:1.6;}
+
+/* ── GALLERY ── */
+#gallery{background:var(--charcoal);display:flex;flex-direction:column;justify-content:center;padding:5rem 0;}
+.gallery-header{padding:0 4rem 3rem;display:flex;justify-content:space-between;align-items:flex-end;}
+.gallery-h2{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3.5rem);font-weight:400;color:var(--cream);}
+.gallery-h2 em{font-style:italic;color:var(--gold);}
+.gallery-count{font-size:.75rem;letter-spacing:.15em;color:var(--taupe);}
+.slider-wrap{overflow:hidden;position:relative;}
+.slider-track{display:flex;gap:1.2rem;padding:0 4rem;will-change:transform;animation:slide 30s linear infinite;}
+.slider-track:hover{animation-play-state:paused;}
+.slide-item{flex:0 0 320px;height:420px;border-radius:4px;overflow:hidden;position:relative;}
+.slide-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+.slide-item:hover img{transform:scale(1.05);}
+.slide-caption{position:absolute;bottom:0;left:0;right:0;padding:1.2rem;background:linear-gradient(transparent,rgba(26,20,16,.85));color:var(--cream);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .3s;}
+.slide-item:hover .slide-caption{opacity:1;}
+@keyframes slide{0%{transform:translateX(0)}100%{transform:translateX(calc(-320px * 8 - 1.2rem * 8))}}
+.slider-controls{display:flex;gap:.8rem;padding:2rem 4rem 0;justify-content:flex-end;}
+.s-btn{width:44px;height:44px;border:1px solid rgba(201,169,110,.4);border-radius:50%;background:transparent;color:var(--gold);font-size:1.1rem;cursor:none;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.s-btn:hover{background:var(--gold);color:var(--brown);}
+
+/* ── SERVICES ── */
+#services{background:var(--cream);padding:6rem 4rem;}
+.services-header{text-align:center;margin-bottom:3.5rem;}
+.services-h2{font-family:var(--serif);font-size:clamp(2.2rem,3.5vw,3.5rem);font-weight:400;color:var(--brown);margin:.8rem 0;}
+.services-h2 em{font-style:italic;color:var(--gold);}
+.services-sub{font-size:.9rem;color:var(--taupe);max-width:480px;margin:0 auto;line-height:1.7;}
+.services-tabs{display:flex;justify-content:center;gap:0;margin-bottom:3rem;border:1px solid var(--gold-light);}
+.s-tab{padding:.6rem 1.8rem;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;background:transparent;border:none;color:var(--taupe);cursor:none;transition:all .2s;border-right:1px solid var(--gold-light);}
+.s-tab:last-child{border-right:none;}
+.s-tab.active{background:var(--gold);color:var(--brown);}
+.s-tab:hover:not(.active){background:var(--gold-light);}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.svc-card{background:var(--warm-white);border-radius:4px;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.svc-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(44,30,15,.12);}
+.svc-img{height:220px;overflow:hidden;position:relative;}
+.svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.svc-card:hover .svc-img img{transform:scale(1.06);}
+.svc-price-badge{position:absolute;top:1rem;right:1rem;background:var(--gold);color:var(--brown);padding:.35rem .8rem;font-size:.75rem;font-weight:500;letter-spacing:.05em;border-radius:2px;}
+.svc-body{padding:1.5rem;}
+.svc-name{font-family:var(--serif);font-size:1.25rem;font-weight:400;color:var(--brown);margin-bottom:.4rem;}
+.svc-duration{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;}
+.svc-desc{font-size:.85rem;color:var(--taupe);line-height:1.7;margin-bottom:1.2rem;}
+.svc-book{width:100%;padding:.7rem;background:transparent;border:1px solid var(--gold-light);color:var(--brown-mid);font-family:var(--sans);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;cursor:none;transition:all .2s;border-radius:2px;}
+.svc-book:hover{background:var(--gold);border-color:var(--gold);color:var(--brown);}
+
+/* ── BOOKING ── */
+#booking{background:var(--warm-white);display:flex;align-items:center;justify-content:center;padding:5rem 4rem;}
+.booking-inner{width:100%;max-width:1100px;}
+.booking-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:start;}
+.booking-info{padding-top:1rem;}
+.booking-h2{font-family:var(--serif);font-size:clamp(2.2rem,3vw,3rem);font-weight:400;color:var(--brown);margin:.8rem 0 1.2rem;}
+.booking-h2 em{font-style:italic;color:var(--gold);}
+.booking-p{font-size:.9rem;color:var(--taupe);line-height:1.8;margin-bottom:2rem;}
+.booking-perks{display:flex;flex-direction:column;gap:1rem;}
+.booking-perk{display:flex;align-items:center;gap:.8rem;font-size:.85rem;color:var(--taupe);}
+.perk-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+/* Fresha-style booking widget */
+.booking-widget{background:#fff;border-radius:12px;box-shadow:0 8px 48px rgba(44,30,15,.1);overflow:hidden;}
+.bw-header{background:var(--brown);padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;}
+.bw-logo{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;color:var(--brown);font-weight:700;font-size:1rem;}
+.bw-salon{color:var(--cream);}
+.bw-salon-name{font-size:.95rem;font-weight:500;}
+.bw-salon-loc{font-size:.72rem;color:rgba(250,246,240,.55);margin-top:.15rem;}
+.bw-body{padding:1.5rem 2rem;}
+.bw-step{display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;}
+.bw-step-item{display:flex;align-items:center;gap:.4rem;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:#bbb;}
+.bw-step-item.done{color:var(--gold);}
+.bw-step-item.active{color:var(--brown);font-weight:500;}
+.bw-step-dot{width:20px;height:20px;border-radius:50%;border:1.5px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:.62rem;}
+.bw-step-item.done .bw-step-dot{background:var(--gold);border-color:var(--gold);color:#fff;}
+.bw-step-item.active .bw-step-dot{border-color:var(--brown);color:var(--brown);}
+.bw-step-sep{flex:1;height:1px;background:#eee;}
+.bw-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe);margin-bottom:.8rem;margin-top:1.2rem;}
+.bw-svc-wrap{position:relative;margin-bottom:1rem;}
+.bw-svc-list{display:flex;flex-direction:column;gap:.5rem;overflow-y:auto;padding-right:6px;scrollbar-width:thin;scrollbar-color:var(--gold) #f0ebe3;}
+.bw-svc-list::-webkit-scrollbar{width:4px;}
+.bw-svc-list::-webkit-scrollbar-track{background:#f0ebe3;border-radius:2px;}
+.bw-svc-list::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+.bw-svc-list.scrollable{max-height:calc(56px * 6 + .5rem * 5);}
+.bw-svc-fade{position:absolute;bottom:0;left:0;right:6px;height:56px;background:linear-gradient(rgba(255,249,244,0),rgba(255,249,244,1));pointer-events:none;border-radius:0 0 8px 8px;transition:opacity .3s;}
+.bw-svc-fade.hidden{opacity:0;}
+.bw-svc-scroll-hint{display:none;align-items:center;justify-content:center;gap:.5rem;margin-top:.5rem;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);animation:nudge 2s ease-in-out infinite;}
+.bw-svc-scroll-hint.show{display:flex;}
+.bw-svc-scroll-hint svg{animation:bounceDown 1.4s ease-in-out infinite;}
+@keyframes bounceDown{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+@keyframes nudge{0%,100%{opacity:.6;}50%{opacity:1;}}
+.bw-svc-item{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1rem;border:1.5px solid #eee;border-radius:8px;cursor:none;transition:border-color .2s;}
+.bw-svc-item:hover{border-color:var(--gold-light);}
+.bw-svc-item.selected{border-color:var(--gold);background:rgba(201,169,110,.05);}
+.bw-svc-item-name{font-size:.88rem;color:var(--brown);font-weight:400;}
+.bw-svc-item-info{font-size:.75rem;color:var(--taupe);}
+.bw-svc-check{width:20px;height:20px;border-radius:50%;border:1.5px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:transparent;transition:all .2s;}
+.bw-svc-item.selected .bw-svc-check{background:var(--gold);border-color:var(--gold);color:#fff;}
+.bw-calendar{background:#fafafa;border-radius:8px;padding:1rem;margin-bottom:1rem;}
+.bw-cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.bw-cal-month{font-size:.88rem;font-weight:500;color:var(--brown);}
+.bw-cal-nav{background:none;border:none;color:var(--taupe);cursor:none;font-size:1rem;padding:.2rem .4rem;border-radius:4px;transition:background .2s;}
+.bw-cal-nav:hover{background:#eee;}
+.bw-cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;}
+.bw-cal-day-name{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:#aaa;padding:.3rem 0;}
+.bw-cal-day{font-size:.8rem;padding:.5rem .3rem;border-radius:6px;cursor:none;color:var(--brown);transition:all .2s;}
+.bw-cal-day:hover:not(.empty):not(.disabled){background:var(--gold-light);}
+.bw-cal-day.today{border:1px solid var(--gold-light);}
+.bw-cal-day.selected{background:var(--gold);color:var(--brown);font-weight:500;}
+.bw-cal-day.disabled{color:#ccc;cursor:not-allowed;}
+.bw-cal-day.empty{visibility:hidden;}
+.bw-times{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-bottom:1rem;}
+.bw-time{padding:.55rem .3rem;text-align:center;border:1.5px solid #eee;border-radius:6px;font-size:.78rem;cursor:none;color:var(--brown);transition:all .2s;}
+.bw-time:hover{border-color:var(--gold-light);}
+.bw-time.selected{background:var(--gold);border-color:var(--gold);color:var(--brown);font-weight:500;}
+.bw-time.taken{color:#ccc;border-color:#f0f0f0;cursor:not-allowed;}
+.bw-stylist{display:flex;gap:.5rem;margin-bottom:1rem;}
+.bw-stylist-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.7rem .4rem;border:1.5px solid #eee;border-radius:8px;cursor:none;transition:border-color .2s;text-align:center;}
+.bw-stylist-item:hover{border-color:var(--gold-light);}
+.bw-stylist-item.selected{border-color:var(--gold);}
+.bw-stylist-av{width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--cream);}
+.bw-stylist-name{font-size:.72rem;color:var(--brown);}
+.bw-cta{width:100%;padding:.95rem;background:var(--brown);border:none;color:var(--gold);font-family:var(--sans);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;cursor:none;border-radius:8px;transition:background .2s;margin-top:.5rem;}
+.bw-cta:hover{background:var(--brown-mid);}
+.bw-note{font-size:.68rem;color:#aaa;text-align:center;margin-top:.8rem;}
+
+/* ── RATINGS ── */
+#ratings{background:var(--brown);padding:6rem 4rem;}
+.ratings-header{text-align:center;margin-bottom:1rem;}
+.ratings-h2{font-family:var(--serif);font-size:clamp(2.2rem,3.5vw,3.5rem);font-weight:400;color:var(--cream);margin:.8rem 0 .5rem;}
+.ratings-h2 em{font-style:italic;color:var(--gold);}
+.ratings-avg{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin:2rem 0 3rem;}
+.ratings-score{font-family:var(--serif);font-size:5rem;font-weight:400;color:var(--gold);line-height:1;}
+.ratings-right{text-align:left;}
+.stars-row{display:flex;gap:.3rem;margin-bottom:.3rem;}
+.star{color:var(--gold);font-size:1.2rem;}
+.star.empty{color:rgba(201,169,110,.25);}
+.ratings-total{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe);}
+.ratings-bars{margin-bottom:2.5rem;max-width:300px;}
+.bar-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.5rem;}
+.bar-label{font-size:.72rem;color:var(--taupe);min-width:8px;}
+.bar-bg{flex:1;height:4px;background:rgba(201,169,110,.15);border-radius:2px;}
+.bar-fill{height:100%;background:var(--gold);border-radius:2px;}
+.bar-count{font-size:.7rem;color:var(--taupe);min-width:20px;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.review-card{background:rgba(255,255,255,.05);border:1px solid rgba(201,169,110,.15);border-radius:8px;padding:1.8rem;transition:border-color .3s;}
+.review-card:hover{border-color:rgba(201,169,110,.4);}
+.rev-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+.rev-user{display:flex;align-items:center;gap:.8rem;}
+.rev-av{width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--brown-mid);}
+.rev-name{font-size:.88rem;font-weight:500;color:var(--cream);}
+.rev-date{font-size:.7rem;color:var(--taupe);margin-top:.15rem;}
+.rev-stars{display:flex;gap:.2rem;}
+.rev-star{color:var(--gold);font-size:.85rem;}
+.rev-service{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;}
+.rev-text{font-size:.88rem;color:rgba(250,246,240,.65);line-height:1.75;font-style:italic;}
+.rev-img{width:100%;height:100px;object-fit:cover;border-radius:4px;margin-top:1rem;}
+
+/* ── CTA ── */
+#cta{background:var(--gold);display:flex;align-items:center;justify-content:center;min-height:60vh;scroll-snap-align:start;padding:4rem;}
+.cta-inner{text-align:center;max-width:680px;}
+.cta-h2{font-family:var(--serif);font-size:clamp(2.5rem,5vw,5rem);font-weight:400;line-height:1.05;color:var(--brown);margin-bottom:1.2rem;}
+.cta-h2 em{font-style:italic;}
+.cta-p{font-size:1rem;color:var(--brown-mid);line-height:1.7;margin-bottom:2.5rem;opacity:.85;}
+.cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-dark{background:var(--brown);color:var(--gold);padding:.9rem 2.4rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .2s;}
+.btn-dark:hover{background:var(--charcoal);}
+.btn-outline{border:2px solid var(--brown);color:var(--brown);padding:.88rem 2.4rem;font-family:var(--sans);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s;}
+.btn-outline:hover{background:var(--brown);color:var(--gold);}
+.cta-contact{margin-top:3rem;display:flex;gap:3rem;justify-content:center;}
+.cta-contact-item{display:flex;flex-direction:column;align-items:center;gap:.3rem;}
+.cta-contact-label{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brown-mid);}
+.cta-contact-val{font-size:.95rem;color:var(--brown);font-weight:400;}
+
+/* ── FOOTER ── */
+footer{background:var(--charcoal);padding:4rem 4rem 2.5rem;scroll-snap-align:start;}
+.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(201,169,110,.12);}
+.footer-brand .f-logo{font-family:var(--serif);font-size:1.5rem;font-style:italic;color:var(--cream);text-decoration:none;}
+.footer-brand .f-logo span{color:var(--gold);font-style:normal;}
+.footer-brand p{font-size:.82rem;color:var(--taupe);line-height:1.8;margin-top:1rem;max-width:280px;}
+.footer-socials{display:flex;gap:.7rem;margin-top:1.5rem;}
+.social-link{width:34px;height:34px;border:1px solid rgba(201,169,110,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--taupe);font-size:.8rem;text-decoration:none;transition:all .2s;}
+.social-link:hover{border-color:var(--gold);color:var(--gold);}
+.footer-col h4{font-family:var(--sans);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+.footer-col ul{list-style:none;}
+.footer-col ul li{margin-bottom:.6rem;}
+.footer-col ul a{font-size:.82rem;color:var(--taupe);text-decoration:none;transition:color .2s;}
+.footer-col ul a:hover{color:var(--cream);}
+.footer-hours{display:flex;flex-direction:column;gap:.5rem;}
+.hour-row{display:flex;justify-content:space-between;font-size:.8rem;color:var(--taupe);}
+.hour-row .open{color:var(--gold-light);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;}
+.footer-copy{font-size:.72rem;color:rgba(138,117,96,.5);letter-spacing:.08em;}
+.footer-powered{font-size:.72rem;color:rgba(138,117,96,.35);}
+.footer-powered a{color:rgba(201,169,110,.5);text-decoration:none;}
+
+/* ── BOOKING PAGE OVERLAY ── */
+#bookingPage{
+  position:fixed;inset:0;z-index:800;
+  background:var(--warm-white);
+  transform:translateX(100%);
+  transition:transform .55s cubic-bezier(.77,0,.18,1);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+#bookingPage.open{transform:translateX(0);}
+
+.bp-nav{
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 3rem;
+  background:rgba(255,249,244,.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,169,110,.2);
+  flex-shrink:0;
+}
+.bp-logo{font-family:var(--serif);font-size:1.2rem;font-style:italic;color:var(--brown);}
+.bp-logo span{color:var(--gold);font-style:normal;}
+.bp-close{
+  display:flex;align-items:center;gap:.6rem;
+  background:none;border:1px solid var(--gold-light);
+  color:var(--taupe);font-family:var(--sans);font-size:.72rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  padding:.55rem 1.2rem;border-radius:2px;cursor:none;
+  transition:all .2s;
+}
+.bp-close:hover{border-color:var(--brown);color:var(--brown);}
+.bp-close-x{font-size:1rem;line-height:1;}
+
+.bp-body{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 1.3fr;
+  gap:0;
+  min-height:calc(100vh - 70px);
+}
+
+.bp-left{
+  background:var(--brown);
+  padding:4rem 3.5rem;
+  display:flex;flex-direction:column;justify-content:center;
+  position:sticky;top:70px;height:calc(100vh - 70px);
+}
+.bp-left .section-tag{margin-bottom:1rem;}
+.bp-heading{font-family:var(--serif);font-size:clamp(2rem,3vw,3rem);font-weight:400;color:var(--cream);line-height:1.1;margin-bottom:1.2rem;}
+.bp-heading em{font-style:italic;color:var(--gold);}
+.bp-desc{font-size:.88rem;color:rgba(250,246,240,.55);line-height:1.8;margin-bottom:2.5rem;}
+
+.bp-info-list{display:flex;flex-direction:column;gap:0;border-top:1px solid rgba(201,169,110,.15);}
+.bp-info-row{display:flex;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid rgba(201,169,110,.1);}
+.bp-info-icon{width:34px;height:34px;border:1px solid rgba(201,169,110,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.bp-info-label{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--taupe);}
+.bp-info-val{font-size:.88rem;color:var(--cream);}
+
+.bp-selected-svc{
+  margin-top:2rem;padding:1.2rem;
+  background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.2);border-radius:4px;
+  display:none;
+}
+.bp-selected-svc.show{display:block;}
+.bp-selected-svc-label{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
+.bp-selected-svc-name{font-family:var(--serif);font-size:1.1rem;color:var(--cream);}
+.bp-selected-svc-info{font-size:.78rem;color:var(--taupe);margin-top:.2rem;}
+
+.bp-right{
+  padding:3rem 3.5rem;
+  overflow-y:auto;
+}
+
+/* Widget inside page - reuse existing styles but tweak */
+.bp-right .booking-widget{
+  box-shadow:0 4px 32px rgba(44,30,15,.08);
+  border:1px solid var(--gold-light);
+  max-width:600px;
+}
+
+.bp-progress{
+  display:flex;gap:0;margin-bottom:2.5rem;
+  border:1px solid var(--gold-light);border-radius:4px;overflow:hidden;
+}
+.bp-prog-step{
+  flex:1;padding:.7rem .5rem;text-align:center;
+  font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--taupe);background:var(--warm-white);
+  border-right:1px solid var(--gold-light);transition:all .3s;
+}
+.bp-prog-step:last-child{border-right:none;}
+.bp-prog-step.active{background:var(--gold);color:var(--brown);font-weight:500;}
+.bp-prog-step.done{background:rgba(201,169,110,.15);color:var(--gold);}
+
+@media(max-width:900px){
+  nav{padding:1.2rem 2rem;}
+  .nav-links{gap:1.2rem;}
+  #hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .about-inner,.booking-grid{grid-template-columns:1fr;}
+  .services-grid{grid-template-columns:1fr 1fr;}
+  .reviews-grid{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Lumière <span>&</span> Co.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#booking">Booking</a></li>
+    <li><a href="#ratings">Reviews</a></li>
+    <li><a href="#cta" class="nav-book">Book Now</a></li>
+  </ul>
+</nav>
+
+<!-- SCROLL DOTS -->
+<div class="sdots" id="sdots">
+  <div class="sdot active" data-s="hero"></div>
+  <div class="sdot" data-s="about"></div>
+  <div class="sdot" data-s="gallery"></div>
+  <div class="sdot" data-s="services"></div>
+  <div class="sdot" data-s="booking"></div>
+  <div class="sdot" data-s="ratings"></div>
+  <div class="sdot" data-s="cta"></div>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Luxury Hair Studio · Paris-Inspired</p>
+    <h1 class="hero-h1">Your Hair,<br>Your <em>Story</em></h1>
+    <p class="hero-sub">Where artistry meets care. We craft bespoke hair experiences that celebrate your unique beauty — from precision cuts to colour transformations.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">Book Appointment</a>
+      <a href="#services" class="btn-ghost">Our Services</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-n">12+</div>
+        <div class="hero-stat-l">Years Experience</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">4.9★</div>
+        <div class="hero-stat-l">Client Rating</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">3K+</div>
+        <div class="hero-stat-l">Happy Clients</div>
+      </div>
+    </div>
+    <div class="hero-scroll">Scroll to explore</div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=900&q=80" alt="Salon">
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-img-wrap">
+      <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80" alt="About Lumière">
+      <div class="about-badge">
+        <div class="about-badge-n">12</div>
+        <div class="about-badge-l">Years of<br>Excellence</div>
+      </div>
+    </div>
+    <div class="about-content">
+      <p class="section-tag">Our Story</p>
+      <h2 class="about-h2">Crafted with <em>passion,</em><br>designed for you</h2>
+      <p class="about-p">Founded in 2012, Lumière & Co. was born from a dream to create a sanctuary where every client feels seen, heard, and transformed. Nestled in the heart of the city, our studio blends Parisian elegance with modern artistry.</p>
+      <p class="about-p">Our award-winning team of stylists are trained in the finest techniques — from balayage to keratin treatments — ensuring each visit is a bespoke, unforgettable experience.</p>
+      <div class="about-pillars">
+        <div class="about-pillar">
+          <div class="pillar-icon">✦</div>
+          <div class="pillar-name">Premium Products</div>
+          <div class="pillar-desc">L'Oréal Professionnel & Kérastase only</div>
+        </div>
+        <div class="about-pillar">
+          <div class="pillar-icon">◈</div>
+          <div class="pillar-name">Expert Stylists</div>
+          <div class="pillar-desc">Internationally trained, continuously certified</div>
+        </div>
+        <div class="about-pillar">
+          <div class="pillar-icon">❋</div>
+          <div class="pillar-name">Relaxing Ambience</div>
+          <div class="pillar-desc">A true escape from the everyday</div>
+        </div>
+        <div class="about-pillar">
+          <div class="pillar-icon">◯</div>
+          <div class="pillar-name">Personalised Care</div>
+          <div class="pillar-desc">Every service tailored to your hair goals</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div>
+      <p class="section-tag" style="color:var(--gold);">Our Work</p>
+      <h2 class="gallery-h2">A glimpse into <em>our studio</em></h2>
+    </div>
+    <div class="gallery-count" style="color:var(--taupe);font-size:.8rem;letter-spacing:.1em;">Auto-scrolling gallery · hover to pause</div>
+  </div>
+  <div class="slider-wrap">
+    <div class="slider-track" id="sliderTrack">
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80" alt=""><div class="slide-caption">Balayage</div></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=400&q=80" alt=""><div class="slide-caption">Precision Cut</div></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?w=400&q=80" alt=""><div class="slide-caption">Colour Melt</div></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400&q=80" alt=""><div class="slide-caption">Bridal Styling</div></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=400&q=80" alt=""><div class="slide-caption">Deep Treatment</div></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&q=80" alt=""><div class="slide-caption">Highlights</div></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=400&q=80" alt=""><div class="slide-caption">Blowout</div></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400&q=80" alt=""><div class="slide-caption">Keratin</div></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80" alt=""></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=400&q=80" alt=""></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?w=400&q=80" alt=""></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400&q=80" alt=""></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=400&q=80" alt=""></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&q=80" alt=""></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=400&q=80" alt=""></div>
+      <div class="slide-item"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400&q=80" alt=""></div>
+    </div>
+  </div>
+  <div class="slider-controls">
+    <button class="s-btn" id="sliderPrev">←</button>
+    <button class="s-btn" id="sliderNext">→</button>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="services-header">
+    <p class="section-tag" style="justify-content:center;">What We Offer</p>
+    <h2 class="services-h2">Our <em>Services</em></h2>
+    <p class="services-sub">Each service is thoughtfully designed to give you the best results. Prices vary by hair length — book a consultation for a personalised quote.</p>
+  </div>
+  <div class="services-tabs" id="svcTabs">
+    <button class="s-tab active" data-cat="all">All</button>
+    <button class="s-tab" data-cat="cut">Cuts</button>
+    <button class="s-tab" data-cat="colour">Colour</button>
+    <button class="s-tab" data-cat="treatment">Treatments</button>
+    <button class="s-tab" data-cat="bridal">Bridal</button>
+  </div>
+  <div class="services-grid" id="svcGrid">
+    <div class="svc-card" data-cat="cut">
+      <div class="svc-img">
+        <img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=600&q=80" alt="Precision Cut">
+        <span class="svc-price-badge">From £45</span>
+      </div>
+      <div class="svc-body">
+        <h3 class="svc-name">Precision Cut</h3>
+        <p class="svc-duration">45 – 60 min</p>
+        <p class="svc-desc">A bespoke cut tailored to your face shape, lifestyle, and hair texture. Includes a relaxing scalp massage and blowout finish.</p>
+        <button class="svc-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book This Service</button>
+      </div>
+    </div>
+    <div class="svc-card" data-cat="colour">
+      <div class="svc-img">
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80" alt="Balayage">
+        <span class="svc-price-badge">From £120</span>
+      </div>
+      <div class="svc-body">
+        <h3 class="svc-name">Balayage & Highlights</h3>
+        <p class="svc-duration">2.5 – 3.5 hrs</p>
+        <p class="svc-desc">Sun-kissed colour painted freehand for a natural, dimensional look. Includes toner, gloss, and blowout styling.</p>
+        <button class="svc-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book This Service</button>
+      </div>
+    </div>
+    <div class="svc-card" data-cat="colour">
+      <div class="svc-img">
+        <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?w=600&q=80" alt="Colour Melt">
+        <span class="svc-price-badge">From £95</span>
+      </div>
+      <div class="svc-body">
+        <h3 class="svc-name">Full Colour & Toning</h3>
+        <p class="svc-duration">1.5 – 2 hrs</p>
+        <p class="svc-desc">Complete colour transformation with professional grade pigments. Rich, vibrant results with shine-boosting gloss finish.</p>
+        <button class="svc-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book This Service</button>
+      </div>
+    </div>
+    <div class="svc-card" data-cat="treatment">
+      <div class="svc-img">
+        <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=600&q=80" alt="Keratin">
+        <span class="svc-price-badge">From £180</span>
+      </div>
+      <div class="svc-body">
+        <h3 class="svc-name">Keratin Smoothing</h3>
+        <p class="svc-duration">2 – 3 hrs</p>
+        <p class="svc-desc">Brazilian keratin treatment that eliminates frizz and reduces styling time by up to 50%. Lasts 3–5 months.</p>
+        <button class="svc-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book This Service</button>
+      </div>
+    </div>
+    <div class="svc-card" data-cat="treatment">
+      <div class="svc-img">
+        <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=80" alt="Deep Conditioning">
+        <span class="svc-price-badge">From £55</span>
+      </div>
+      <div class="svc-body">
+        <h3 class="svc-name">Olaplex Treatment</h3>
+        <p class="svc-duration">60 – 75 min</p>
+        <p class="svc-desc">Rebuild and strengthen broken hair bonds from the inside out. Ideal for chemically treated, damaged, or fine hair.</p>
+        <button class="svc-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book This Service</button>
+      </div>
+    </div>
+    <div class="svc-card" data-cat="bridal">
+      <div class="svc-img">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&q=80" alt="Bridal">
+        <span class="svc-price-badge">From £250</span>
+      </div>
+      <div class="svc-body">
+        <h3 class="svc-name">Bridal Package</h3>
+        <p class="svc-duration">Full day</p>
+        <p class="svc-desc">Complete bridal experience including consultation, trial run, wedding day styling for bride and bridal party. Champagne included.</p>
+        <button class="svc-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book This Service</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOOKING ── -->
+<section id="booking">
+  <div class="booking-inner">
+    <div class="booking-grid">
+      <div class="booking-info">
+        <p class="section-tag">Easy Online Booking</p>
+        <h2 class="booking-h2">Reserve your <em>appointment</em></h2>
+        <p class="booking-p">Skip the phone call. Book your preferred service, stylist, and time slot in just a few clicks. Instant confirmation sent to your email.</p>
+        <div class="booking-perks">
+          <div class="booking-perk"><div class="perk-dot"></div>Free cancellation up to 24 hours before</div>
+          <div class="booking-perk"><div class="perk-dot"></div>Choose your preferred stylist</div>
+          <div class="booking-perk"><div class="perk-dot"></div>Instant email & SMS confirmation</div>
+          <div class="booking-perk"><div class="perk-dot"></div>Add multiple services in one booking</div>
+          <div class="booking-perk"><div class="perk-dot"></div>Loyalty points earned on every visit</div>
+        </div>
+      </div>
+      <!-- Fresha-style widget -->
+      <div class="booking-widget">
+        <div class="bw-header">
+          <div class="bw-logo">L</div>
+          <div class="bw-salon">
+            <div class="bw-salon-name">Lumière & Co. Hair Studio</div>
+            <div class="bw-salon-loc">📍 14 Beaumont Street, London W1G</div>
+          </div>
+        </div>
+        <div class="bw-body">
+          <div class="bw-step">
+            <div class="bw-step-item done"><div class="bw-step-dot">✓</div>Service</div>
+            <div class="bw-step-sep"></div>
+            <div class="bw-step-item active"><div class="bw-step-dot">2</div>Date</div>
+            <div class="bw-step-sep"></div>
+            <div class="bw-step-item"><div class="bw-step-dot">3</div>Stylist</div>
+            <div class="bw-step-sep"></div>
+            <div class="bw-step-item"><div class="bw-step-dot">4</div>Confirm</div>
+          </div>
+
+          <div class="bw-label">Select service</div>
+          <div class="bw-svc-wrap"><div class="bw-svc-list" onscroll="updateFade(this)">
+            <div class="bw-svc-item selected" onclick="toggleSvc(this)">
+              <div><div class="bw-svc-item-name">Precision Cut</div><div class="bw-svc-item-info">45 min · From £45</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" onclick="toggleSvc(this)">
+              <div><div class="bw-svc-item-name">Balayage & Highlights</div><div class="bw-svc-item-info">3 hrs · From £120</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" onclick="toggleSvc(this)">
+              <div><div class="bw-svc-item-name">Olaplex Treatment</div><div class="bw-svc-item-info">60 min · From £55</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" onclick="toggleSvc(this)">
+              <div><div class="bw-svc-item-name">Full Colour & Toning</div><div class="bw-svc-item-info">2 hrs · From £95</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" onclick="toggleSvc(this)">
+              <div><div class="bw-svc-item-name">Keratin Smoothing</div><div class="bw-svc-item-info">3 hrs · From £180</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" onclick="toggleSvc(this)">
+              <div><div class="bw-svc-item-name">Blowout &amp; Style</div><div class="bw-svc-item-info">45 min · From £35</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" onclick="toggleSvc(this)">
+              <div><div class="bw-svc-item-name">Scalp Treatment</div><div class="bw-svc-item-info">30 min · From £40</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" onclick="toggleSvc(this)">
+              <div><div class="bw-svc-item-name">Bridal Package</div><div class="bw-svc-item-info">Full day · From £250</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+          </div><div class="bw-svc-fade"></div><div class="bw-svc-scroll-hint"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Scroll to see more</div></div>
+
+          <div class="bw-label">Choose date</div>
+          <div class="bw-calendar">
+            <div class="bw-cal-header">
+              <button class="bw-cal-nav">‹</button>
+              <span class="bw-cal-month" id="calMonth">April 2026</span>
+              <button class="bw-cal-nav">›</button>
+            </div>
+            <div class="bw-cal-days" id="calDays">
+              <div class="bw-cal-day-name">S</div><div class="bw-cal-day-name">M</div><div class="bw-cal-day-name">T</div><div class="bw-cal-day-name">W</div><div class="bw-cal-day-name">T</div><div class="bw-cal-day-name">F</div><div class="bw-cal-day-name">S</div>
+            </div>
+          </div>
+
+          <div class="bw-label">Available times</div>
+          <div class="bw-times" id="bwTimes">
+            <div class="bw-time taken">9:00</div>
+            <div class="bw-time" onclick="selectTime(this)">9:30</div>
+            <div class="bw-time" onclick="selectTime(this)">10:00</div>
+            <div class="bw-time taken">10:30</div>
+            <div class="bw-time" onclick="selectTime(this)">11:00</div>
+            <div class="bw-time selected" onclick="selectTime(this)">11:30</div>
+            <div class="bw-time" onclick="selectTime(this)">14:00</div>
+            <div class="bw-time" onclick="selectTime(this)">15:00</div>
+          </div>
+
+          <div class="bw-label">Choose stylist</div>
+          <div class="bw-stylist">
+            <div class="bw-stylist-item selected" onclick="selectStylist(this)">
+              <img class="bw-stylist-av" src="https://i.pravatar.cc/80?img=47" alt="">
+              <div class="bw-stylist-name">Sophie</div>
+            </div>
+            <div class="bw-stylist-item" onclick="selectStylist(this)">
+              <img class="bw-stylist-av" src="https://i.pravatar.cc/80?img=32" alt="">
+              <div class="bw-stylist-name">Isabelle</div>
+            </div>
+            <div class="bw-stylist-item" onclick="selectStylist(this)">
+              <img class="bw-stylist-av" src="https://i.pravatar.cc/80?img=25" alt="">
+              <div class="bw-stylist-name">Camille</div>
+            </div>
+            <div class="bw-stylist-item" onclick="selectStylist(this)">
+              <img class="bw-stylist-av" src="https://i.pravatar.cc/80?img=9" alt="">
+              <div class="bw-stylist-name">Any</div>
+            </div>
+          </div>
+
+          <button class="bw-cta">Confirm Booking</button>
+          <p class="bw-note">Powered by Lumière Booking · Free cancellation 24h before</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RATINGS ── -->
+<section id="ratings">
+  <div class="ratings-header">
+    <p class="section-tag" style="justify-content:center;color:var(--gold);">Client Love</p>
+    <h2 class="ratings-h2">What our clients <em>say</em></h2>
+  </div>
+  <div style="display:flex;justify-content:center;flex-direction:column;align-items:center;">
+    <div class="ratings-avg">
+      <div class="ratings-score">4.9</div>
+      <div class="ratings-right">
+        <div class="stars-row">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <div class="ratings-total">Based on 847 reviews</div>
+        <div class="ratings-bars" style="margin-top:.8rem;">
+          <div class="bar-row"><span class="bar-label">5</span><div class="bar-bg"><div class="bar-fill" style="width:88%"></div></div><span class="bar-count">746</span></div>
+          <div class="bar-row"><span class="bar-label">4</span><div class="bar-bg"><div class="bar-fill" style="width:9%"></div></div><span class="bar-count">76</span></div>
+          <div class="bar-row"><span class="bar-label">3</span><div class="bar-bg"><div class="bar-fill" style="width:2%"></div></div><span class="bar-count">17</span></div>
+          <div class="bar-row"><span class="bar-label">2</span><div class="bar-bg"><div class="bar-fill" style="width:1%"></div></div><span class="bar-count">6</span></div>
+          <div class="bar-row"><span class="bar-label">1</span><div class="bar-bg"><div class="bar-fill" style="width:0%"></div></div><span class="bar-count">2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="reviews-grid" style="padding:0 4rem 4rem;">
+    <div class="review-card">
+      <div class="rev-top">
+        <div class="rev-user">
+          <img class="rev-av" src="https://i.pravatar.cc/80?img=5" alt="">
+          <div>
+            <div class="rev-name">Emma Thornton</div>
+            <div class="rev-date">March 2026</div>
+          </div>
+        </div>
+        <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
+      </div>
+      <div class="rev-service">Balayage & Highlights</div>
+      <p class="rev-text">"Absolutely obsessed with my new balayage. Sophie took so much time to understand exactly what I wanted. I've had so many compliments — best salon I've ever been to."</p>
+    </div>
+    <div class="review-card">
+      <div class="rev-top">
+        <div class="rev-user">
+          <img class="rev-av" src="https://i.pravatar.cc/80?img=12" alt="">
+          <div>
+            <div class="rev-name">Charlotte Duvall</div>
+            <div class="rev-date">February 2026</div>
+          </div>
+        </div>
+        <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
+      </div>
+      <div class="rev-service">Bridal Package</div>
+      <p class="rev-text">"The team at Lumière made my wedding day absolutely perfect. The trial run, the communication, the day itself — seamless. I cried happy tears looking in the mirror."</p>
+    </div>
+    <div class="review-card">
+      <div class="rev-top">
+        <div class="rev-user">
+          <img class="rev-av" src="https://i.pravatar.cc/80?img=28" alt="">
+          <div>
+            <div class="rev-name">Nadia Sørensen</div>
+            <div class="rev-date">January 2026</div>
+          </div>
+        </div>
+        <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
+      </div>
+      <div class="rev-service">Keratin Smoothing</div>
+      <p class="rev-text">"My hair has never felt so silky and manageable. The keratin treatment was worth every penny. Camille was so professional and explained everything throughout the process."</p>
+    </div>
+    <div class="review-card">
+      <div class="rev-top">
+        <div class="rev-user">
+          <img class="rev-av" src="https://i.pravatar.cc/80?img=44" alt="">
+          <div>
+            <div class="rev-name">Priya Mehta</div>
+            <div class="rev-date">December 2025</div>
+          </div>
+        </div>
+        <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
+      </div>
+      <div class="rev-service">Precision Cut</div>
+      <p class="rev-text">"I was nervous to try a new stylist but Isabelle put me completely at ease. The cut is so perfectly shaped — it grows out beautifully too. I'm a client for life."</p>
+    </div>
+    <div class="review-card">
+      <div class="rev-top">
+        <div class="rev-user">
+          <img class="rev-av" src="https://i.pravatar.cc/80?img=51" alt="">
+          <div>
+            <div class="rev-name">Léa Marchand</div>
+            <div class="rev-date">November 2025</div>
+          </div>
+        </div>
+        <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
+      </div>
+      <div class="rev-service">Olaplex Treatment</div>
+      <p class="rev-text">"Came in with damaged, over-processed hair and left feeling like a completely new person. The Olaplex treatment was transformative. The whole team is just wonderful."</p>
+    </div>
+    <div class="review-card">
+      <div class="rev-top">
+        <div class="rev-user">
+          <img class="rev-av" src="https://i.pravatar.cc/80?img=20" alt="">
+          <div>
+            <div class="rev-name">Anya Williams</div>
+            <div class="rev-date">October 2025</div>
+          </div>
+        </div>
+        <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
+      </div>
+      <div class="rev-service">Full Colour & Toning</div>
+      <p class="rev-text">"The colour Sophie created for me is exactly what I had on my inspiration board — but even better in real life. The salon itself is beautiful and so relaxing."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="cta-inner">
+    <h2 class="cta-h2">Ready for your <em>transformation?</em></h2>
+    <p class="cta-p">Whether you're after a subtle refresh or a bold reinvention, our team is here to make it happen. Book your appointment today and step into your best hair ever.</p>
+    <div class="cta-actions">
+      <a href="#booking" class="btn-dark">Book Appointment</a>
+      <a href="tel:+442071234567" class="btn-outline">Call Us Now</a>
+    </div>
+    <div class="cta-contact">
+      <div class="cta-contact-item">
+        <span class="cta-contact-label">Phone</span>
+        <span class="cta-contact-val">+44 207 123 4567</span>
+      </div>
+      <div class="cta-contact-item">
+        <span class="cta-contact-label">Email</span>
+        <span class="cta-contact-val">hello@lumiere.co</span>
+      </div>
+      <div class="cta-contact-item">
+        <span class="cta-contact-label">Address</span>
+        <span class="cta-contact-val">14 Beaumont St, London</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#hero" class="f-logo">Lumière <span>&</span> Co.</a>
+      <p>A luxury hair studio in the heart of London. We believe every person deserves hair that makes them feel extraordinary.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-link">ig</a>
+        <a href="#" class="social-link">fb</a>
+        <a href="#" class="social-link">tt</a>
+        <a href="#" class="social-link">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#booking">Book Now</a></li>
+        <li><a href="#ratings">Reviews</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Precision Cuts</a></li>
+        <li><a href="#">Balayage</a></li>
+        <li><a href="#">Colour & Toning</a></li>
+        <li><a href="#">Keratin</a></li>
+        <li><a href="#">Bridal Packages</a></li>
+        <li><a href="#">Olaplex</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Opening Hours</h4>
+      <div class="footer-hours">
+        <div class="hour-row"><span>Monday</span><span class="open">9am – 7pm</span></div>
+        <div class="hour-row"><span>Tuesday</span><span class="open">9am – 7pm</span></div>
+        <div class="hour-row"><span>Wednesday</span><span class="open">9am – 8pm</span></div>
+        <div class="hour-row"><span>Thursday</span><span class="open">9am – 8pm</span></div>
+        <div class="hour-row"><span>Friday</span><span class="open">9am – 7pm</span></div>
+        <div class="hour-row"><span>Saturday</span><span class="open">8am – 6pm</span></div>
+        <div class="hour-row"><span>Sunday</span><span style="color:var(--taupe)">Closed</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Lumière & Co. Hair Studio. All rights reserved.</span>
+    <span class="footer-powered">Crafted with care · <a href="#">Privacy Policy</a></span>
+  </div>
+</footer>
+
+<!-- ── BOOKING PAGE OVERLAY ── -->
+<div id="bookingPage">
+  <div class="bp-nav">
+    <div class="bp-logo">Lumière <span>&</span> Co.</div>
+    <button class="bp-close" id="bpClose"><span class="bp-close-x">✕</span> Close</button>
+  </div>
+  <div class="bp-body">
+    <!-- Left panel -->
+    <div class="bp-left">
+      <p class="section-tag" style="color:var(--gold);">Online Booking</p>
+      <h2 class="bp-heading">Book your <em>appointment</em></h2>
+      <p class="bp-desc">Reserve your preferred service, stylist, and time in minutes. Instant confirmation via email & SMS.</p>
+
+      <div id="bpSelectedSvc" class="bp-selected-svc">
+        <div class="bp-selected-svc-label">Selected Service</div>
+        <div class="bp-selected-svc-name" id="bpSvcName">—</div>
+        <div class="bp-selected-svc-info" id="bpSvcInfo"></div>
+      </div>
+
+      <div class="bp-info-list" style="margin-top:2rem;">
+        <div class="bp-info-row">
+          <div class="bp-info-icon">📍</div>
+          <div>
+            <div class="bp-info-label">Location</div>
+            <div class="bp-info-val">14 Beaumont St, London W1G</div>
+          </div>
+        </div>
+        <div class="bp-info-row">
+          <div class="bp-info-icon">🕐</div>
+          <div>
+            <div class="bp-info-label">Hours Today</div>
+            <div class="bp-info-val">9:00 am – 7:00 pm</div>
+          </div>
+        </div>
+        <div class="bp-info-row">
+          <div class="bp-info-icon">📞</div>
+          <div>
+            <div class="bp-info-label">Phone</div>
+            <div class="bp-info-val">+44 207 123 4567</div>
+          </div>
+        </div>
+        <div class="bp-info-row">
+          <div class="bp-info-icon">✉</div>
+          <div>
+            <div class="bp-info-label">Email</div>
+            <div class="bp-info-val">hello@lumiere.co</div>
+          </div>
+        </div>
+        <div class="bp-info-row">
+          <div class="bp-info-icon">↩</div>
+          <div>
+            <div class="bp-info-label">Cancellation</div>
+            <div class="bp-info-val">Free up to 24h before</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right panel - full booking widget -->
+    <div class="bp-right">
+      <!-- Step progress bar -->
+      <div class="bp-progress">
+        <div class="bp-prog-step done" data-step="1">1. Service</div>
+        <div class="bp-prog-step active" data-step="2">2. Date & Time</div>
+        <div class="bp-prog-step" data-step="3">3. Stylist</div>
+        <div class="bp-prog-step" data-step="4">4. Details</div>
+        <div class="bp-prog-step" data-step="5">5. Confirm</div>
+      </div>
+
+      <div class="booking-widget">
+        <div class="bw-header">
+          <div class="bw-logo">L</div>
+          <div class="bw-salon">
+            <div class="bw-salon-name">Lumière & Co. Hair Studio</div>
+            <div class="bw-salon-loc">📍 14 Beaumont Street, London W1G</div>
+          </div>
+        </div>
+        <div class="bw-body">
+          <div class="bw-step">
+            <div class="bw-step-item done"><div class="bw-step-dot">✓</div>Service</div>
+            <div class="bw-step-sep"></div>
+            <div class="bw-step-item active"><div class="bw-step-dot">2</div>Date</div>
+            <div class="bw-step-sep"></div>
+            <div class="bw-step-item"><div class="bw-step-dot">3</div>Stylist</div>
+            <div class="bw-step-sep"></div>
+            <div class="bw-step-item"><div class="bw-step-dot">4</div>Confirm</div>
+          </div>
+
+          <div class="bw-label">Select service</div>
+          <div class="bw-svc-wrap"><div class="bw-svc-list" onscroll="updateFade(this)" id="bpSvcList">
+            <div class="bw-svc-item selected" data-name="Precision Cut" data-info="45 min · From £45" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Precision Cut</div><div class="bw-svc-item-info">45 min · From £45</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" data-name="Balayage & Highlights" data-info="3 hrs · From £120" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Balayage & Highlights</div><div class="bw-svc-item-info">3 hrs · From £120</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" data-name="Full Colour & Toning" data-info="2 hrs · From £95" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Full Colour & Toning</div><div class="bw-svc-item-info">2 hrs · From £95</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" data-name="Keratin Smoothing" data-info="3 hrs · From £180" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Keratin Smoothing</div><div class="bw-svc-item-info">3 hrs · From £180</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" data-name="Olaplex Treatment" data-info="60 min · From £55" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Olaplex Treatment</div><div class="bw-svc-item-info">60 min · From £55</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" data-name="Bridal Package" data-info="Full day · From £250" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Bridal Package</div><div class="bw-svc-item-info">Full day · From £250</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" data-name="Blowout & Style" data-info="45 min · From £35" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Blowout &amp; Style</div><div class="bw-svc-item-info">45 min · From £35</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" data-name="Scalp Treatment" data-info="30 min · From £40" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Scalp Treatment</div><div class="bw-svc-item-info">30 min · From £40</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+            <div class="bw-svc-item" data-name="Extensions Consultation" data-info="60 min · From £30" onclick="bpToggleSvc(this)">
+              <div><div class="bw-svc-item-name">Extensions Consultation</div><div class="bw-svc-item-info">60 min · From £30</div></div>
+              <div class="bw-svc-check">✓</div>
+            </div>
+          </div><div class="bw-svc-fade"></div><div class="bw-svc-scroll-hint"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Scroll to see more</div></div>
+
+          <div class="bw-label">Choose date</div>
+          <div class="bw-calendar">
+            <div class="bw-cal-header">
+              <button class="bw-cal-nav" id="bp-prev">‹</button>
+              <span class="bw-cal-month" id="bpCalMonth">April 2026</span>
+              <button class="bw-cal-nav" id="bp-next">›</button>
+            </div>
+            <div class="bw-cal-days" id="bpCalDays">
+              <div class="bw-cal-day-name">S</div><div class="bw-cal-day-name">M</div><div class="bw-cal-day-name">T</div><div class="bw-cal-day-name">W</div><div class="bw-cal-day-name">T</div><div class="bw-cal-day-name">F</div><div class="bw-cal-day-name">S</div>
+            </div>
+          </div>
+
+          <div class="bw-label">Available times</div>
+          <div class="bw-times">
+            <div class="bw-time taken">9:00</div>
+            <div class="bw-time" onclick="bpSelectTime(this)">9:30</div>
+            <div class="bw-time" onclick="bpSelectTime(this)">10:00</div>
+            <div class="bw-time taken">10:30</div>
+            <div class="bw-time" onclick="bpSelectTime(this)">11:00</div>
+            <div class="bw-time selected" onclick="bpSelectTime(this)">11:30</div>
+            <div class="bw-time" onclick="bpSelectTime(this)">12:00</div>
+            <div class="bw-time" onclick="bpSelectTime(this)">13:00</div>
+            <div class="bw-time taken">13:30</div>
+            <div class="bw-time" onclick="bpSelectTime(this)">14:00</div>
+            <div class="bw-time" onclick="bpSelectTime(this)">15:00</div>
+            <div class="bw-time" onclick="bpSelectTime(this)">16:00</div>
+          </div>
+
+          <div class="bw-label">Choose stylist</div>
+          <div class="bw-stylist">
+            <div class="bw-stylist-item selected" onclick="bpSelectStylist(this)">
+              <img class="bw-stylist-av" src="https://i.pravatar.cc/80?img=47" alt="">
+              <div class="bw-stylist-name">Sophie</div>
+            </div>
+            <div class="bw-stylist-item" onclick="bpSelectStylist(this)">
+              <img class="bw-stylist-av" src="https://i.pravatar.cc/80?img=32" alt="">
+              <div class="bw-stylist-name">Isabelle</div>
+            </div>
+            <div class="bw-stylist-item" onclick="bpSelectStylist(this)">
+              <img class="bw-stylist-av" src="https://i.pravatar.cc/80?img=25" alt="">
+              <div class="bw-stylist-name">Camille</div>
+            </div>
+            <div class="bw-stylist-item" onclick="bpSelectStylist(this)">
+              <img class="bw-stylist-av" src="https://i.pravatar.cc/80?img=9" alt="">
+              <div class="bw-stylist-name">Any</div>
+            </div>
+          </div>
+
+          <div class="bw-label" style="margin-top:1.5rem;">Your Details</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.7rem;">
+            <input type="text" placeholder="First name" style="padding:.75rem 1rem;border:1.5px solid #eee;border-radius:8px;font-family:var(--sans);font-size:.88rem;color:var(--brown);background:#fff;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='#eee'">
+            <input type="text" placeholder="Last name" style="padding:.75rem 1rem;border:1.5px solid #eee;border-radius:8px;font-family:var(--sans);font-size:.88rem;color:var(--brown);background:#fff;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='#eee'">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.7rem;">
+            <input type="email" placeholder="Email address" style="padding:.75rem 1rem;border:1.5px solid #eee;border-radius:8px;font-family:var(--sans);font-size:.88rem;color:var(--brown);background:#fff;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='#eee'">
+            <input type="tel" placeholder="Phone number" style="padding:.75rem 1rem;border:1.5px solid #eee;border-radius:8px;font-family:var(--sans);font-size:.88rem;color:var(--brown);background:#fff;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='#eee'">
+          </div>
+          <textarea placeholder="Any special requests or notes..." rows="3" style="width:100%;padding:.75rem 1rem;border:1.5px solid #eee;border-radius:8px;font-family:var(--sans);font-size:.88rem;color:var(--brown);background:#fff;outline:none;resize:none;transition:border-color .2s;margin-bottom:.7rem;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='#eee'"></textarea>
+
+          <!-- Summary -->
+          <div style="background:#fafafa;border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem;border:1px solid #f0f0f0;">
+            <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);margin-bottom:.8rem;">Booking Summary</div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--brown);margin-bottom:.4rem;"><span>Service</span><span id="summSvc">Precision Cut</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--brown);margin-bottom:.4rem;"><span>Date & Time</span><span>Tue 7 Apr · 11:30</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--brown);margin-bottom:.4rem;"><span>Stylist</span><span>Sophie</span></div>
+            <div style="border-top:1px solid #eee;margin:.6rem 0;"></div>
+            <div style="display:flex;justify-content:space-between;font-size:.9rem;font-weight:500;color:var(--brown);"><span>Starting from</span><span id="summPrice" style="color:var(--gold);">£45</span></div>
+          </div>
+
+          <button class="bw-cta" onclick="bpConfirm()">Confirm Booking →</button>
+          <p class="bw-note">No payment required now · Free cancellation 24h before</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Success toast -->
+<div id="bpToast" style="position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120px);z-index:1000;background:var(--brown);color:var(--gold);padding:1rem 2rem;border-radius:4px;font-family:var(--sans);font-size:.85rem;letter-spacing:.08em;transition:transform .4s cubic-bezier(.23,1,.32,1);white-space:nowrap;border:1px solid rgba(201,169,110,.3);">
+  ✓ &nbsp; Booking confirmed! Check your email.
+</div>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+function animCursor(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animCursor);}
+animCursor();
+
+// Smooth anchor scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });
+});
+
+// Scroll dots
+const sections=document.querySelectorAll('section');
+const dots=document.querySelectorAll('.sdot');
+const obs=new IntersectionObserver(en=>{
+  en.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      dots.forEach(d=>d.classList.remove('active'));
+      const d=document.querySelector(`.sdot[data-s="${id}"]`);
+      if(d)d.classList.add('active');
+    }
+  });
+},{threshold:0.5});
+sections.forEach(s=>obs.observe(s));
+dots.forEach(d=>d.addEventListener('click',()=>{
+  const s=document.getElementById(d.dataset.s);
+  if(s)s.scrollIntoView({behavior:'smooth'});
+}));
+
+// Service tabs
+document.querySelectorAll('.s-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.s-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const cat=tab.dataset.cat;
+    document.querySelectorAll('.svc-card').forEach(card=>{
+      card.style.display=(cat==='all'||card.dataset.cat===cat)?'block':'none';
+    });
+  });
+});
+
+// Calendar
+(function(){
+  const now=new Date(2026,3,7);
+  let cur=new Date(now.getFullYear(),now.getMonth(),1);
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function render(){
+    document.getElementById('calMonth').textContent=months[cur.getMonth()]+' '+cur.getFullYear();
+    const grid=document.getElementById('calDays');
+    const dayNames=grid.querySelectorAll('.bw-cal-day-name');
+    grid.innerHTML='';
+    dayNames.forEach(d=>grid.appendChild(d.cloneNode(true)));
+    const first=new Date(cur.getFullYear(),cur.getMonth(),1).getDay();
+    const days=new Date(cur.getFullYear(),cur.getMonth()+1,0).getDate();
+    for(let i=0;i<first;i++){const d=document.createElement('div');d.className='bw-cal-day empty';d.textContent='';grid.appendChild(d);}
+    for(let i=1;i<=days;i++){
+      const d=document.createElement('div');d.className='bw-cal-day';d.textContent=i;
+      const date=new Date(cur.getFullYear(),cur.getMonth(),i);
+      if(date<new Date(now.getFullYear(),now.getMonth(),now.getDate()))d.classList.add('disabled');
+      if(i===7&&cur.getMonth()===now.getMonth())d.classList.add('selected');
+      if(date.getDate()===now.getDate()&&cur.getMonth()===now.getMonth())d.classList.add('today');
+      d.addEventListener('click',()=>{
+        if(!d.classList.contains('disabled')){
+          grid.querySelectorAll('.bw-cal-day').forEach(x=>x.classList.remove('selected'));
+          d.classList.add('selected');
+        }
+      });
+      grid.appendChild(d);
+    }
+  }
+  document.querySelectorAll('.bw-cal-nav')[0].addEventListener('click',()=>{cur=new Date(cur.getFullYear(),cur.getMonth()-1,1);render();});
+  document.querySelectorAll('.bw-cal-nav')[1].addEventListener('click',()=>{cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);render();});
+  render();
+})();
+
+// Booking interactions
+function toggleSvc(el){el.classList.toggle('selected');}
+function selectTime(el){document.querySelectorAll('.bw-time').forEach(t=>t.classList.remove('selected'));el.classList.add('selected');}
+function selectStylist(el){document.querySelectorAll('.bw-stylist-item').forEach(s=>s.classList.remove('selected'));el.classList.add('selected');}
+
+// ── BOOKING PAGE ──
+const bookingPage=document.getElementById('bookingPage');
+
+function openBookingPage(svcName, svcInfo){
+  bookingPage.classList.add('open');
+  document.body.style.overflow='hidden';
+  // Pre-select service if passed
+  if(svcName){
+    document.querySelectorAll('#bpSvcList .bw-svc-item').forEach(el=>{
+      const match=el.dataset.name===svcName;
+      el.classList.toggle('selected',match);
+    });
+    updateBpSidePanel();
+  }
+  bookingPage.scrollTop=0;
+}
+
+function closeBookingPage(){
+  bookingPage.classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.getElementById('bpClose').addEventListener('click',closeBookingPage);
+
+// Close on Escape key
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBookingPage();});
+
+// Wire up all "Book" buttons across the page
+document.querySelectorAll('.svc-book').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.preventDefault();
+    const card=btn.closest('.svc-card');
+    const name=card.querySelector('.svc-name')?.textContent;
+    const price=card.querySelector('.svc-price-badge')?.textContent;
+    const duration=card.querySelector('.svc-duration')?.textContent;
+    openBookingPage(name, duration+' · '+price);
+  });
+});
+
+// Wire up nav "Book Now" & hero/CTA buttons
+document.querySelectorAll('.nav-book,.btn-primary,.btn-dark').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    if(btn.getAttribute('href')==='#booking'||btn.getAttribute('href')==='#cta'||!btn.getAttribute('href')){
+      e.preventDefault();
+      openBookingPage();
+    }
+  });
+});
+
+function updateBpSidePanel(){
+  const selected=document.querySelector('#bpSvcList .bw-svc-item.selected');
+  const panel=document.getElementById('bpSelectedSvc');
+  if(selected){
+    document.getElementById('bpSvcName').textContent=selected.dataset.name;
+    document.getElementById('bpSvcInfo').textContent=selected.dataset.info;
+    panel.classList.add('show');
+    // Update summary
+    const svcSummEl=document.getElementById('summSvc');
+    const priceSummEl=document.getElementById('summPrice');
+    if(svcSummEl)svcSummEl.textContent=selected.dataset.name;
+    if(priceSummEl){
+      const m=selected.dataset.info.match(/£(\d+)/);
+      if(m)priceSummEl.textContent='£'+m[1];
+    }
+  } else {
+    panel.classList.remove('show');
+  }
+}
+
+function bpToggleSvc(el){
+  el.classList.toggle('selected');
+  updateBpSidePanel();
+}
+
+function bpSelectTime(el){
+  el.closest('.bw-times').querySelectorAll('.bw-time').forEach(t=>t.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function bpSelectStylist(el){
+  el.closest('.bw-stylist').querySelectorAll('.bw-stylist-item').forEach(s=>s.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function bpConfirm(){
+  const toast=document.getElementById('bpToast');
+  toast.style.transform='translateX(-50%) translateY(0)';
+  setTimeout(()=>{
+    toast.style.transform='translateX(-50%) translateY(120px)';
+  },3500);
+  setTimeout(closeBookingPage,1200);
+}
+
+// BP Calendar
+(function(){
+  const now=new Date(2026,3,7);
+  let cur=new Date(now.getFullYear(),now.getMonth(),1);
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function render(){
+    document.getElementById('bpCalMonth').textContent=months[cur.getMonth()]+' '+cur.getFullYear();
+    const grid=document.getElementById('bpCalDays');
+    const dayNames=grid.querySelectorAll('.bw-cal-day-name');
+    grid.innerHTML='';
+    dayNames.forEach(d=>grid.appendChild(d.cloneNode(true)));
+    const first=new Date(cur.getFullYear(),cur.getMonth(),1).getDay();
+    const days=new Date(cur.getFullYear(),cur.getMonth()+1,0).getDate();
+    for(let i=0;i<first;i++){const d=document.createElement('div');d.className='bw-cal-day empty';grid.appendChild(d);}
+    for(let i=1;i<=days;i++){
+      const d=document.createElement('div');d.className='bw-cal-day';d.textContent=i;
+      const date=new Date(cur.getFullYear(),cur.getMonth(),i);
+      if(date<new Date(now.getFullYear(),now.getMonth(),now.getDate()))d.classList.add('disabled');
+      if(i===7&&cur.getMonth()===now.getMonth())d.classList.add('selected');
+      if(date.getDate()===now.getDate()&&cur.getMonth()===now.getMonth())d.classList.add('today');
+      d.addEventListener('click',()=>{
+        if(!d.classList.contains('disabled')){
+          grid.querySelectorAll('.bw-cal-day').forEach(x=>x.classList.remove('selected'));
+          d.classList.add('selected');
+        }
+      });
+      grid.appendChild(d);
+    }
+  }
+  document.getElementById('bp-prev').addEventListener('click',()=>{cur=new Date(cur.getFullYear(),cur.getMonth()-1,1);render();});
+  document.getElementById('bp-next').addEventListener('click',()=>{cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);render();});
+  render();
+})();
+
+
+function initSvcList(list){
+  var items=list.querySelectorAll('.bw-svc-item');
+  var wrap=list.parentElement;
+  var fade=wrap.querySelector('.bw-svc-fade');
+  var hint=wrap.querySelector('.bw-svc-scroll-hint');
+  if(items.length>6){
+    list.classList.add('scrollable');
+    updateFade(list);
+    list.addEventListener('scroll',function(){updateFade(list);});
+  } else {
+    if(fade)fade.classList.add('hidden');
+    if(hint)hint.classList.remove('show');
+  }
+}
+function updateFade(list){
+  var wrap=list.parentElement;
+  var fade=wrap.querySelector('.bw-svc-fade');
+  var hint=wrap.querySelector('.bw-svc-scroll-hint');
+  if(!fade)return;
+  var atBottom=list.scrollHeight-list.scrollTop<=list.clientHeight+4;
+  fade.classList.toggle('hidden',atBottom);
+  if(hint)hint.classList.toggle('show',!atBottom);
+}
+window.addEventListener('load',function(){
+  document.querySelectorAll('.bw-svc-list').forEach(function(l){initSvcList(l);});
+});
+
+// Slider manual controls
+const track=document.getElementById('sliderTrack');
+let offset=0;
+document.getElementById('sliderNext').addEventListener('click',()=>{offset-=321;track.style.animation='none';track.style.transform=`translateX(${offset}px)`;});
+document.getElementById('sliderPrev').addEventListener('click',()=>{offset+=321;track.style.animation='none';track.style.transform=`translateX(${offset}px)`;});
+</script>
+</body>
+</html>
