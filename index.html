@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumina — Design Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav" id="nav">
+    <a href="#" class="nav__logo">Lumina</a>
+    <ul class="nav__links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact" class="nav__cta">Get in touch</a></li>
+    </ul>
+    <button class="nav__burger" id="burger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#work" class="mobile-link">Work</a></li>
+      <li><a href="#services" class="mobile-link">Services</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#contact" class="mobile-link">Get in touch</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="blob blob--3"></div>
+    </div>
+    <div class="hero__content">
+      <span class="hero__eyebrow reveal">Design Studio</span>
+      <h1 class="hero__title reveal reveal--delay-1">
+        We craft<br />
+        <span class="hero__title-accent">beautiful</span><br />
+        digital things.
+      </h1>
+      <p class="hero__sub reveal reveal--delay-2">
+        Strategy, design, and development for brands<br class="hide-sm" />
+        that want to stand out.
+      </p>
+      <div class="hero__actions reveal reveal--delay-3">
+        <a href="#work" class="btn btn--primary">See our work</a>
+        <a href="#contact" class="btn btn--ghost">Start a project</a>
+      </div>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-indicator__line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-wrapper" aria-hidden="true">
+    <div class="marquee">
+      <div class="marquee__track">
+        <span>Branding</span><span class="marquee__dot">·</span>
+        <span>Web Design</span><span class="marquee__dot">·</span>
+        <span>Motion</span><span class="marquee__dot">·</span>
+        <span>Development</span><span class="marquee__dot">·</span>
+        <span>Strategy</span><span class="marquee__dot">·</span>
+        <span>Branding</span><span class="marquee__dot">·</span>
+        <span>Web Design</span><span class="marquee__dot">·</span>
+        <span>Motion</span><span class="marquee__dot">·</span>
+        <span>Development</span><span class="marquee__dot">·</span>
+        <span>Strategy</span><span class="marquee__dot">·</span>
+        <span>Branding</span><span class="marquee__dot">·</span>
+        <span>Web Design</span><span class="marquee__dot">·</span>
+        <span>Motion</span><span class="marquee__dot">·</span>
+        <span>Development</span><span class="marquee__dot">·</span>
+        <span>Strategy</span><span class="marquee__dot">·</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Work -->
+  <section class="section" id="work">
+    <div class="container">
+      <div class="section__header">
+        <span class="label scroll-reveal">Selected Work</span>
+        <h2 class="section__title scroll-reveal">Projects that<br />move the needle.</h2>
+      </div>
+      <div class="projects">
+        <article class="project-card scroll-reveal" data-index="0">
+          <div class="project-card__image">
+            <div class="project-card__placeholder" style="--hue: 240"></div>
+            <div class="project-card__overlay">
+              <span class="project-card__view">View case study →</span>
+            </div>
+          </div>
+          <div class="project-card__info">
+            <span class="project-card__tag">Brand Identity</span>
+            <h3 class="project-card__title">Aura Health</h3>
+            <p class="project-card__desc">Rebranding a wellness startup to feel premium and approachable.</p>
+          </div>
+        </article>
+
+        <article class="project-card scroll-reveal" data-index="1">
+          <div class="project-card__image">
+            <div class="project-card__placeholder" style="--hue: 160"></div>
+            <div class="project-card__overlay">
+              <span class="project-card__view">View case study →</span>
+            </div>
+          </div>
+          <div class="project-card__info">
+            <span class="project-card__tag">Web Design</span>
+            <h3 class="project-card__title">Timber & Co.</h3>
+            <p class="project-card__desc">E-commerce redesign that drove a 3× increase in conversions.</p>
+          </div>
+        </article>
+
+        <article class="project-card scroll-reveal" data-index="2">
+          <div class="project-card__image">
+            <div class="project-card__placeholder" style="--hue: 30"></div>
+            <div class="project-card__overlay">
+              <span class="project-card__view">View case study →</span>
+            </div>
+          </div>
+          <div class="project-card__info">
+            <span class="project-card__tag">Motion Design</span>
+            <h3 class="project-card__title">Orbit Finance</h3>
+            <p class="project-card__desc">Complex data visualised through elegant, animated interfaces.</p>
+          </div>
+        </article>
+
+        <article class="project-card scroll-reveal" data-index="3">
+          <div class="project-card__image">
+            <div class="project-card__placeholder" style="--hue: 320"></div>
+            <div class="project-card__overlay">
+              <span class="project-card__view">View case study →</span>
+            </div>
+          </div>
+          <div class="project-card__info">
+            <span class="project-card__tag">Strategy + Design</span>
+            <h3 class="project-card__title">Nova SaaS</h3>
+            <p class="project-card__desc">End-to-end product design for a B2B collaboration tool.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section section--dark" id="services">
+    <div class="container">
+      <div class="section__header">
+        <span class="label label--light scroll-reveal">What We Do</span>
+        <h2 class="section__title scroll-reveal">Every service<br />you need to grow.</h2>
+      </div>
+      <div class="services">
+        <div class="service-item scroll-reveal">
+          <div class="service-item__number">01</div>
+          <div class="service-item__body">
+            <h3>Brand Identity</h3>
+            <p>Logos, colour systems, typography, and brand guidelines that tell your story with clarity.</p>
+          </div>
+          <div class="service-item__arrow">→</div>
+        </div>
+        <div class="service-item scroll-reveal">
+          <div class="service-item__number">02</div>
+          <div class="service-item__body">
+            <h3>Web Design & Dev</h3>
+            <p>Pixel-perfect websites built with modern frameworks, accessibility, and performance in mind.</p>
+          </div>
+          <div class="service-item__arrow">→</div>
+        </div>
+        <div class="service-item scroll-reveal">
+          <div class="service-item__number">03</div>
+          <div class="service-item__body">
+            <h3>Motion & Animation</h3>
+            <p>Micro-interactions and animated storytelling that keep users engaged and delighted.</p>
+          </div>
+          <div class="service-item__arrow">→</div>
+        </div>
+        <div class="service-item scroll-reveal">
+          <div class="service-item__number">04</div>
+          <div class="service-item__body">
+            <h3>Product Strategy</h3>
+            <p>User research, journey mapping, and product discovery to build the right things, right.</p>
+          </div>
+          <div class="service-item__arrow">→</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section section--accent">
+    <div class="container">
+      <div class="stats">
+        <div class="stat scroll-reveal">
+          <span class="stat__number" data-target="120">0</span>
+          <span class="stat__plus">+</span>
+          <span class="stat__label">Projects delivered</span>
+        </div>
+        <div class="stat scroll-reveal">
+          <span class="stat__number" data-target="98">0</span>
+          <span class="stat__plus">%</span>
+          <span class="stat__label">Client satisfaction</span>
+        </div>
+        <div class="stat scroll-reveal">
+          <span class="stat__number" data-target="8">0</span>
+          <span class="stat__label">Years of experience</span>
+        </div>
+        <div class="stat scroll-reveal">
+          <span class="stat__number" data-target="24">0</span>
+          <span class="stat__plus">h</span>
+          <span class="stat__label">Average response time</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about">
+        <div class="about__media scroll-reveal">
+          <div class="about__photo-stack">
+            <div class="about__photo about__photo--back" style="--hue: 200"></div>
+            <div class="about__photo about__photo--front" style="--hue: 260"></div>
+          </div>
+        </div>
+        <div class="about__text">
+          <span class="label scroll-reveal">About Us</span>
+          <h2 class="section__title scroll-reveal">Small team.<br />Big impact.</h2>
+          <p class="scroll-reveal">We're a boutique studio of eight designers, developers, and strategists who believe that beautiful design and business results aren't mutually exclusive — they're the same thing.</p>
+          <p class="scroll-reveal">Founded in 2018, we've worked with startups, scale-ups, and Fortune 500s across three continents.</p>
+          <a href="#contact" class="btn btn--primary scroll-reveal">Work with us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="testimonial scroll-reveal">
+        <div class="testimonial__quote">"</div>
+        <blockquote class="testimonial__text">
+          Lumina didn't just redesign our product — they transformed how our customers feel about us. Revenue up 40% in six months.
+        </blockquote>
+        <div class="testimonial__author">
+          <div class="testimonial__avatar" style="--hue: 200"></div>
+          <div>
+            <strong>Sarah Chen</strong>
+            <span>CPO, Orbit Finance</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact">
+    <div class="container container--narrow">
+      <div class="section__header">
+        <span class="label scroll-reveal">Get Started</span>
+        <h2 class="section__title scroll-reveal">Let's build something<br />remarkable together.</h2>
+      </div>
+      <form class="form scroll-reveal" id="contactForm" novalidate>
+        <div class="form__row">
+          <div class="form__group">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+            <span class="form__error">Please enter your name</span>
+          </div>
+          <div class="form__group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="jane@company.com" required />
+            <span class="form__error">Please enter a valid email</span>
+          </div>
+        </div>
+        <div class="form__group">
+          <label for="project">Tell us about your project</label>
+          <textarea id="project" name="project" rows="4" placeholder="What are you looking to build?" required></textarea>
+          <span class="form__error">Please describe your project</span>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">
+          <span class="btn__label">Send message</span>
+          <span class="btn__loading" aria-hidden="true"></span>
+        </button>
+        <div class="form__success" id="formSuccess">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Message sent! We'll be in touch shortly.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <a href="#" class="footer__logo">Lumina</a>
+        <p class="footer__copy">© 2026 Lumina Studio. All rights reserved.</p>
+        <div class="footer__social">
+          <a href="#" class="footer__social-link" aria-label="Twitter">tw</a>
+          <a href="#" class="footer__social-link" aria-label="Dribbble">dr</a>
+          <a href="#" class="footer__social-link" aria-label="LinkedIn">li</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-follower" id="cursorFollower" aria-hidden="true"></div>
+
+  <script src="main.js"></script>
+</body>
+</html>
