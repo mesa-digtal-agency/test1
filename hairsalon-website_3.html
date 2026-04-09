@@ -386,9 +386,159 @@ footer{background:var(--charcoal);padding:4rem 4rem 2.5rem;scroll-snap-align:sta
   .reviews-grid{grid-template-columns:1fr 1fr;}
   .footer-top{grid-template-columns:1fr 1fr;}
 }
+
+/* ════════════════════════════════════════
+   UX ENHANCEMENT LAYER — animations & transitions
+   ════════════════════════════════════════ */
+
+/* ── Page Loader ── */
+#ldr{position:fixed;inset:0;z-index:9999;background:var(--brown);display:flex;align-items:center;justify-content:center;transition:opacity .7s ease,visibility .7s;}
+#ldr.out{opacity:0;visibility:hidden;pointer-events:none;}
+.ldr-logo{font-family:var(--serif);font-size:2.2rem;font-style:italic;color:var(--cream);letter-spacing:.03em;animation:ldrPulse 1.4s ease-in-out infinite;}
+.ldr-bar{width:160px;height:2px;background:rgba(201,169,110,.2);border-radius:2px;margin:.9rem auto 0;overflow:hidden;}
+.ldr-fill{height:100%;width:0;background:var(--gold);border-radius:2px;animation:ldrFill 1.1s cubic-bezier(.16,1,.3,1) forwards .1s;}
+@keyframes ldrPulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes ldrFill{to{width:100%}}
+
+/* ── Hero entrance ── */
+.hero-left>*{opacity:0;transform:translateY(26px);animation:hIn .95s cubic-bezier(.16,1,.3,1) forwards;}
+.hero-tag{animation-delay:.18s}
+.hero-h1{animation-delay:.32s}
+.hero-sub{animation-delay:.46s}
+.hero-actions{animation-delay:.60s}
+.hero-stats{animation-delay:.74s}
+.hero-scroll{animation-delay:.90s}
+@keyframes hIn{to{opacity:1;transform:none}}
+
+/* ── Scroll reveal ── */
+.sr{opacity:0;transform:translateY(38px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
+.sr.in{opacity:1;transform:none;}
+.sr-l{opacity:0;transform:translateX(-44px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+.sr-l.in{opacity:1;transform:none;}
+.sr-r{opacity:0;transform:translateX(44px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+.sr-r.in{opacity:1;transform:none;}
+.sr-d1{transition-delay:.08s}.sr-d2{transition-delay:.16s}.sr-d3{transition-delay:.24s}
+.sr-d4{transition-delay:.32s}.sr-d5{transition-delay:.40s}
+
+/* ── Nav scroll shadow ── */
+nav{transition:box-shadow .35s,padding .35s;}
+nav.nscroll{box-shadow:0 6px 36px rgba(44,30,15,.14);}
+
+/* ── Cursor states ── */
+.cur{transition:transform .12s cubic-bezier(.16,1,.3,1),opacity .2s;}
+.cur.chov{transform:translate(-50%,-50%) scale(2.4);opacity:.35;}
+.cur.cclk{transform:translate(-50%,-50%) scale(.55);}
+.cur-r{transition:left .26s cubic-bezier(.23,1,.32,1),top .26s cubic-bezier(.23,1,.32,1),width .28s,height .28s,border-color .25s;}
+.cur-r.chov{width:58px;height:58px;border-color:var(--gold);opacity:.8;}
+
+/* ── Mobile hamburger ── */
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:4px;z-index:510;}
+.ham span{display:block;width:22px;height:1.5px;background:var(--brown);border-radius:2px;transition:transform .38s cubic-bezier(.16,1,.3,1),opacity .28s;}
+.ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.ham.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+/* ── Mobile nav overlay ── */
+.mnav{position:fixed;inset:0;z-index:480;background:var(--warm-white);display:flex;flex-direction:column;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:visibility .45s,opacity .45s cubic-bezier(.16,1,.3,1);}
+.mnav.open{visibility:visible;opacity:1;}
+.mnav ul{list-style:none;text-align:center;}
+.mnav ul li{overflow:hidden;margin-bottom:2px;}
+.mnav-link{display:block;font-family:var(--serif);font-size:clamp(2rem,5vw,3rem);font-weight:400;font-style:italic;color:var(--brown);padding:8px 24px;text-decoration:none;transform:translateY(110%);transition:transform .52s cubic-bezier(.16,1,.3,1),color .2s;}
+.mnav.open .mnav-link{transform:none;}
+.mnav.open li:nth-child(1) .mnav-link{transition-delay:.05s}
+.mnav.open li:nth-child(2) .mnav-link{transition-delay:.10s}
+.mnav.open li:nth-child(3) .mnav-link{transition-delay:.15s}
+.mnav.open li:nth-child(4) .mnav-link{transition-delay:.20s}
+.mnav.open li:nth-child(5) .mnav-link{transition-delay:.25s}
+.mnav.open li:nth-child(6) .mnav-link{transition-delay:.30s}
+.mnav-link:hover{color:var(--gold);}
+.mnav-book{background:var(--gold);color:var(--brown)!important;padding:10px 28px!important;border-radius:2px;margin-top:8px;font-style:normal!important;font-size:1rem!important;letter-spacing:.15em;}
+@media(min-width:901px){.ham{display:none!important}.mnav{display:none!important}}
+@media(max-width:900px){.ham{display:flex}.nav-links{display:none!important}}
+
+/* ── Hero scroll hint ── */
+.hero-scroll{animation:sHint 2.2s ease-in-out infinite;}
+@keyframes sHint{0%,100%{opacity:.4;transform:translateY(0)}55%{opacity:.85;transform:translateY(8px)}}
+
+/* ── Hero image parallax ── */
+.hero-right img{will-change:transform;}
+
+/* ── Service tab card transitions ── */
+.svc-card{transition:transform .32s cubic-bezier(.16,1,.3,1),box-shadow .32s,opacity .28s;}
+.svc-card.sv-out{opacity:0;transform:scale(.95) translateY(8px);pointer-events:none;}
+
+/* ── About badge pop ── */
+.about-badge{transform:scale(0) rotate(-10deg);transition:transform .72s cubic-bezier(.34,1.56,.64,1) .3s;}
+.about-badge.in{transform:scale(1) rotate(0deg);}
+
+/* ── Rating bars animated ── */
+.bar-fill{transition:width 1.15s cubic-bezier(.16,1,.3,1);}
+
+/* ── Review card hover ── */
+.review-card{transition:border-color .3s,transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s;}
+.review-card:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,0,0,.28);}
+
+/* ── About pillar hover ── */
+.about-pillar{transition:background .28s,transform .3s cubic-bezier(.16,1,.3,1);}
+.about-pillar:hover{transform:translateY(-4px);}
+
+/* ── Ripple base ── */
+.btn-primary,.btn-dark,.btn-outline,.nav-book,.svc-book,.bw-cta{position:relative;overflow:hidden;}
+
+/* ── Social link spring ── */
+.social-link{transition:border-color .25s,color .25s,transform .28s cubic-bezier(.34,1.56,.64,1);}
+.social-link:hover{transform:scale(1.22);}
+
+/* ── Scroll-to-top ── */
+#stt{position:fixed;bottom:2rem;right:1.8rem;z-index:600;width:44px;height:44px;background:var(--brown);border:1px solid rgba(201,169,110,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.15rem;cursor:none;opacity:0;visibility:hidden;transform:translateY(20px);transition:opacity .3s,visibility .3s,transform .35s cubic-bezier(.16,1,.3,1),background .2s;}
+#stt.show{opacity:1;visibility:visible;transform:none;}
+#stt:hover{background:var(--gold-dark);transform:translateY(-3px);}
+
+/* ── Booking widget item check scale ── */
+.bw-svc-check{transition:all .22s cubic-bezier(.34,1.56,.64,1);}
+.bw-svc-item.selected .bw-svc-check{transform:scale(1.15);}
+.bw-stylist-item{transition:border-color .22s,transform .28s cubic-bezier(.34,1.56,.64,1);}
+.bw-stylist-item:hover{transform:translateY(-2px);}
+.bw-time{transition:all .2s cubic-bezier(.34,1.56,.64,1);}
+.bw-time:not(.taken):hover{transform:scale(1.06);}
+
+/* ── Section tag line ── */
+.section-tag{transition:opacity .3s;}
+
+/* ── Reduced motion ── */
+@media(prefers-reduced-motion:reduce){
+  .hero-left>*,.sr,.sr-l,.sr-r{opacity:1!important;transform:none!important;animation:none!important;transition:none!important;}
+  .about-badge{transform:none!important;transition:none!important;}
+  #ldr{display:none!important;}
+  .hero-scroll{animation:none!important;}
+  .stt,.review-card,.about-pillar,.bw-time,.bw-stylist-item{transition:none!important;}
+}
 </style>
 </head>
 <body>
+
+<!-- Page Loader -->
+<div id="ldr">
+  <div>
+    <div class="ldr-logo">Lumière &amp; Co.</div>
+    <div class="ldr-bar"><div class="ldr-fill"></div></div>
+  </div>
+</div>
+
+<!-- Mobile nav overlay -->
+<div class="mnav" id="mNav">
+  <ul>
+    <li><a href="#about"    class="mnav-link">About</a></li>
+    <li><a href="#gallery"  class="mnav-link">Gallery</a></li>
+    <li><a href="#services" class="mnav-link">Services</a></li>
+    <li><a href="#booking"  class="mnav-link">Booking</a></li>
+    <li><a href="#ratings"  class="mnav-link">Reviews</a></li>
+    <li><a href="#cta"      class="mnav-link mnav-book">Book Now</a></li>
+  </ul>
+</div>
+
+<!-- Scroll to top -->
+<button id="stt" aria-label="Scroll to top">↑</button>
 
 <div class="cur" id="cur"></div>
 <div class="cur-r" id="curR"></div>
@@ -404,6 +554,9 @@ footer{background:var(--charcoal);padding:4rem 4rem 2.5rem;scroll-snap-align:sta
     <li><a href="#ratings">Reviews</a></li>
     <li><a href="#cta" class="nav-book">Book Now</a></li>
   </ul>
+  <button class="ham" id="hamBtn" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- SCROLL DOTS -->
@@ -1386,6 +1539,235 @@ const track=document.getElementById('sliderTrack');
 let offset=0;
 document.getElementById('sliderNext').addEventListener('click',()=>{offset-=321;track.style.animation='none';track.style.transform=`translateX(${offset}px)`;});
 document.getElementById('sliderPrev').addEventListener('click',()=>{offset+=321;track.style.animation='none';track.style.transform=`translateX(${offset}px)`;});
+</script>
+
+<script>
+/* ════════════════════════════════════════
+   UX ENHANCEMENT SCRIPT
+   ════════════════════════════════════════ */
+(function(){
+  'use strict';
+
+  /* ── Page loader ── */
+  window.addEventListener('load', function(){
+    setTimeout(function(){ document.getElementById('ldr').classList.add('out'); }, 420);
+  });
+
+  /* ── Nav scroll shadow ── */
+  var navEl = document.querySelector('nav');
+  window.addEventListener('scroll', function(){
+    navEl.classList.toggle('nscroll', window.scrollY > 50);
+  }, {passive:true});
+
+  /* ── Cursor enhancements ── */
+  var curEl  = document.getElementById('cur');
+  var curREl = document.getElementById('curR');
+  var iSel   = 'a,button,[onclick],.svc-card,.review-card,.about-pillar,.bw-svc-item,.bw-cal-day,.bw-time,.bw-stylist-item,.sdot,#stt,.s-tab,.slide-item';
+  document.addEventListener('mouseover', function(e){
+    if(e.target.closest(iSel)){ curEl.classList.add('chov'); curREl.classList.add('chov'); }
+  });
+  document.addEventListener('mouseout', function(e){
+    if(e.target.closest(iSel)){ curEl.classList.remove('chov'); curREl.classList.remove('chov'); }
+  });
+  document.addEventListener('mousedown', function(){ curEl.classList.add('cclk'); });
+  document.addEventListener('mouseup',   function(){ curEl.classList.remove('cclk'); });
+
+  /* ── Mobile menu ── */
+  var hamBtn = document.getElementById('hamBtn');
+  var mNav   = document.getElementById('mNav');
+  hamBtn.addEventListener('click', function(){
+    var open = hamBtn.classList.toggle('open');
+    mNav.classList.toggle('open', open);
+    hamBtn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mNav.querySelectorAll('.mnav-link').forEach(function(l){
+    l.addEventListener('click', function(){
+      hamBtn.classList.remove('open');
+      mNav.classList.remove('open');
+      hamBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* ── Scroll-to-top ── */
+  var stt = document.getElementById('stt');
+  window.addEventListener('scroll', function(){
+    stt.classList.toggle('show', window.scrollY > 600);
+  }, {passive:true});
+  stt.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* ── IntersectionObserver scroll reveals ── */
+  var prefReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var srObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        srObs.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.11, rootMargin: '0px 0px -36px 0px'});
+
+  function addSR(sel, cls, stagger){
+    document.querySelectorAll(sel).forEach(function(el, i){
+      if(prefReduced){ return; }
+      cls.split(' ').filter(Boolean).forEach(function(c){ el.classList.add(c); });
+      if(stagger){ el.style.transitionDelay = (i * stagger) + 's'; }
+      srObs.observe(el);
+    });
+  }
+
+  /* About */
+  addSR('.about-img-wrap',     'sr-l',          0);
+  addSR('.about-content .section-tag', 'sr',    0);
+  addSR('.about-h2',           'sr sr-d1',      0);
+  addSR('.about-p',            'sr',            0.1);
+  addSR('.about-pillars',      'sr sr-d2',      0);
+
+  /* About badge */
+  var badge = document.querySelector('.about-badge');
+  if(badge && !prefReduced){
+    var badgeObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ badge.classList.add('in'); badgeObs.unobserve(badge); }
+      });
+    }, {threshold:0.5});
+    badgeObs.observe(badge);
+  } else if(badge){
+    badge.style.transform = 'none';
+  }
+
+  /* Gallery */
+  addSR('.gallery-header',     'sr',            0);
+
+  /* Services */
+  addSR('.services-header',    'sr',            0);
+  addSR('.services-tabs',      'sr sr-d1',      0);
+  addSR('.svc-card',           'sr',            0.07);
+
+  /* Booking */
+  addSR('.booking-info',       'sr-l',          0);
+  addSR('.booking-widget',     'sr-r',          0);
+
+  /* Ratings */
+  var ratHead = document.querySelector('.ratings-header');
+  if(ratHead && !prefReduced){ ratHead.classList.add('sr'); srObs.observe(ratHead); }
+  addSR('.ratings-avg',        'sr sr-d1',      0);
+  addSR('.review-card',        'sr',            0.07);
+
+  /* Rating bar animation */
+  var barFills = document.querySelectorAll('.bar-fill');
+  if(!prefReduced){
+    var barWidths = [];
+    barFills.forEach(function(b){ barWidths.push(b.style.width); b.style.width = '0'; });
+    var barObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var idx = Array.from(barFills).indexOf(e.target);
+          // stagger each bar
+          (function(el, w, delay){
+            setTimeout(function(){ el.style.width = w; }, delay);
+          })(e.target, barWidths[idx], idx * 80);
+          barObs.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.4});
+    barFills.forEach(function(b){ barObs.observe(b); });
+  }
+
+  /* CTA */
+  addSR('.cta-h2',             'sr',            0);
+  addSR('.cta-p',              'sr sr-d1',      0);
+  addSR('.cta-actions',        'sr sr-d2',      0);
+  addSR('.cta-contact',        'sr sr-d3',      0);
+
+  /* Footer */
+  addSR('.footer-brand',       'sr',            0);
+  addSR('.footer-col',         'sr',            0.09);
+
+  /* ── Hero parallax on scroll ── */
+  var heroImg = document.querySelector('.hero-right img');
+  if(heroImg && !prefReduced){
+    window.addEventListener('scroll', function(){
+      if(window.scrollY < window.innerHeight){
+        heroImg.style.transform = 'translateY(' + (window.scrollY * 0.18) + 'px)';
+      }
+    }, {passive:true});
+  }
+
+  /* ── Service tab smooth fade ── */
+  // Override the existing basic tab switching
+  document.querySelectorAll('.s-tab').forEach(function(tab){
+    // Clone to remove the old listener added inline in the first script
+    var newTab = tab.cloneNode(true);
+    tab.parentNode.replaceChild(newTab, tab);
+    newTab.addEventListener('click', function(){
+      document.querySelectorAll('.s-tab,.s-tab').forEach(function(t){ t.classList.remove('active'); });
+      newTab.classList.add('active');
+      var cat = newTab.dataset.cat;
+      document.querySelectorAll('.svc-card').forEach(function(card){
+        var show = cat === 'all' || card.dataset.cat === cat;
+        if(!show){
+          card.classList.add('sv-out');
+          setTimeout(function(){ card.style.display = 'none'; card.classList.remove('sv-out'); }, 290);
+        } else {
+          card.style.display = 'block';
+          // force reflow
+          card.offsetHeight;
+          card.classList.remove('sv-out');
+        }
+      });
+    });
+  });
+
+  /* ── Button ripple effect ── */
+  var rippleStyle = document.createElement('style');
+  rippleStyle.textContent = '@keyframes rippleAnim{to{transform:scale(1);opacity:0}}';
+  document.head.appendChild(rippleStyle);
+
+  document.querySelectorAll('.btn-primary,.btn-dark,.btn-outline,.nav-book,.bw-cta,.svc-book').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      var rect = btn.getBoundingClientRect();
+      var sz   = Math.max(rect.width, rect.height) * 2;
+      var r    = document.createElement('span');
+      r.style.cssText = [
+        'position:absolute',
+        'width:'+sz+'px','height:'+sz+'px',
+        'left:'+(e.clientX-rect.left-sz/2)+'px',
+        'top:'+(e.clientY-rect.top-sz/2)+'px',
+        'background:rgba(255,255,255,.18)',
+        'border-radius:50%',
+        'transform:scale(0)',
+        'pointer-events:none',
+        'animation:rippleAnim .55s cubic-bezier(.16,1,.3,1) forwards'
+      ].join(';');
+      btn.appendChild(r);
+      setTimeout(function(){ r.remove(); }, 600);
+    });
+  });
+
+  /* ── Booking CTA feedback ── */
+  var bwCtas = document.querySelectorAll('.bw-cta');
+  bwCtas.forEach(function(btn){
+    // If not the bp-confirm button, do nothing extra
+    if(btn.getAttribute('onclick') === 'bpConfirm()') return;
+    btn.addEventListener('click', function(){
+      var orig = btn.textContent;
+      btn.textContent = 'Processing…';
+      btn.style.opacity = '.7';
+      btn.disabled = true;
+      setTimeout(function(){
+        btn.textContent = orig;
+        btn.style.opacity = '';
+        btn.disabled = false;
+      }, 1800);
+    });
+  });
+
+})();
 </script>
 </body>
 </html>
