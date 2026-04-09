@@ -505,6 +505,10 @@ nav.nscroll{box-shadow:0 6px 36px rgba(44,30,15,.14);}
 /* ── Section tag line ── */
 .section-tag{transition:opacity .3s;}
 
+/* ── Hero exit fade overlay ── */
+#hero{position:relative;}
+.hero-exit-fade{position:absolute;inset:0;background:var(--warm-white);pointer-events:none;z-index:5;opacity:0;will-change:opacity;}
+
 /* ── Reduced motion ── */
 @media(prefers-reduced-motion:reduce){
   .hero-left>*,.sr,.sr-l,.sr-r{opacity:1!important;transform:none!important;animation:none!important;transition:none!important;}
@@ -599,6 +603,7 @@ nav.nscroll{box-shadow:0 6px 36px rgba(44,30,15,.14);}
   <div class="hero-right">
     <img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?w=900&q=80" alt="Salon">
   </div>
+  <div class="hero-exit-fade" id="heroFade"></div>
 </section>
 
 <!-- ── ABOUT ── -->
@@ -1534,11 +1539,61 @@ window.addEventListener('load',function(){
   document.querySelectorAll('.bw-svc-list').forEach(function(l){initSvcList(l);});
 });
 
-// Slider manual controls
-const track=document.getElementById('sliderTrack');
-let offset=0;
-document.getElementById('sliderNext').addEventListener('click',()=>{offset-=321;track.style.animation='none';track.style.transform=`translateX(${offset}px)`;});
-document.getElementById('sliderPrev').addEventListener('click',()=>{offset+=321;track.style.animation='none';track.style.transform=`translateX(${offset}px)`;});
+// Slider — smooth manual scroll + seamless infinite loop
+(function(){
+  var track = document.getElementById('sliderTrack');
+  if(!track) return;
+  var gap    = parseFloat(getComputedStyle(track).gap) || 19.2;
+  var ITEM_W = 320 + gap;          // width of one slide item inc. gap
+  var LOOP_W = ITEM_W * 8;         // total width of one full loop (8 unique items)
+  var pos    = 0;                  // current pixel offset (positive = shifted left)
+  var busy   = false;
+  var jsMode = false;              // false = CSS anim running, true = JS-controlled
+  var autoTimer;
+
+  function applyPos(animate){
+    track.style.transition = animate
+      ? 'transform 0.65s cubic-bezier(0.16,1,0.3,1)'
+      : 'none';
+    track.style.transform = 'translateX(' + (-pos) + 'px)';
+  }
+
+  function wrap(){
+    if(pos >= LOOP_W){ pos -= LOOP_W; applyPos(false); }
+    else if(pos < 0) { pos += LOOP_W; applyPos(false); }
+  }
+
+  function slide(dir){
+    if(busy) return;
+    // First interaction: stop CSS animation, read current rendered X so there's no jump
+    if(!jsMode){
+      jsMode = true;
+      track.style.animation = 'none';
+      var matrix = getComputedStyle(track).transform;
+      if(matrix && matrix !== 'none'){
+        try { pos = -new DOMMatrix(matrix).m41; } catch(e){}
+        wrap();
+      }
+    }
+    busy = true;
+    pos += dir * ITEM_W;
+    applyPos(true);
+    track.addEventListener('transitionend', function h(){
+      track.removeEventListener('transitionend', h);
+      wrap();
+      busy = false;
+    });
+    // Auto-advance resumes 4 s after last manual click
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(function loop(){
+      if(!busy) slide(1);
+      autoTimer = setTimeout(loop, 3500);
+    }, 4000);
+  }
+
+  document.getElementById('sliderNext').addEventListener('click', function(){ slide(1); });
+  document.getElementById('sliderPrev').addEventListener('click', function(){ slide(-1); });
+})();
 </script>
 
 <script>
@@ -1748,6 +1803,19 @@ document.getElementById('sliderPrev').addEventListener('click',()=>{offset+=321;
       setTimeout(function(){ r.remove(); }, 600);
     });
   });
+
+  /* ── Hero exit fade on scroll ── */
+  var heroFade = document.getElementById('heroFade');
+  var heroSec  = document.getElementById('hero');
+  if(heroFade && heroSec && !prefReduced){
+    window.addEventListener('scroll', function(){
+      var hh = heroSec.offsetHeight;
+      var sy = window.scrollY;
+      // Fade starts at ~12% scroll and is fully opaque at ~67%
+      var opacity = Math.max(0, Math.min(1, (sy - hh * 0.12) / (hh * 0.55)));
+      heroFade.style.opacity = opacity;
+    }, {passive:true});
+  }
 
   /* ── Booking CTA feedback ── */
   var bwCtas = document.querySelectorAll('.bw-cta');
