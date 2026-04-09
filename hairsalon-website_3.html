@@ -509,6 +509,120 @@ nav.nscroll{box-shadow:0 6px 36px rgba(44,30,15,.14);}
 #hero{position:relative;}
 .hero-exit-fade{position:absolute;inset:0;background:var(--warm-white);pointer-events:none;z-index:5;opacity:0;will-change:opacity;}
 
+/* ── Booking: constrain to exactly 1 scroll-snap height ── */
+#booking{height:100vh;padding:2rem 4rem;}
+.booking-inner{height:100%;display:flex;flex-direction:column;justify-content:center;}
+.booking-grid{min-height:0;align-items:start;}
+.booking-info{overflow-y:auto;max-height:calc(100vh - 5rem);scrollbar-width:none;}
+.booking-info::-webkit-scrollbar{display:none;}
+.booking-widget{display:flex;flex-direction:column;max-height:calc(100vh - 5rem);}
+.bw-body{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--gold-light) transparent;}
+.bw-body::-webkit-scrollbar{width:3px;}
+.bw-body::-webkit-scrollbar-thumb{background:var(--gold-light);border-radius:2px;}
+
+/* ── Mobile enhancements ── */
+@media(max-width:768px){
+  /* Disable mandatory snap on mobile — free scrolling is better UX */
+  html{scroll-snap-type:none;}
+  section{scroll-snap-align:none;min-height:auto;}
+  .sdots{display:none;}
+
+  /* Booking: natural height on mobile */
+  #booking{height:auto;padding:3.5rem 1.4rem;}
+  .booking-widget{max-height:none;}
+  .bw-body{overflow-y:visible;}
+  .booking-grid{gap:2.5rem;}
+
+  /* NAV */
+  nav{padding:1rem 1.4rem;}
+
+  /* HERO */
+  .hero-left{padding:5rem 1.4rem 2.5rem;}
+  .hero-stats{gap:1.5rem;}
+
+  /* GALLERY */
+  .gallery-header{padding:0 1.4rem 2rem;flex-direction:column;gap:.6rem;align-items:flex-start;}
+  .slider-controls{padding:1.5rem 1.4rem 0;}
+
+  /* SERVICES — horizontal-scroll pill tabs */
+  #services{padding:4rem 1.4rem;}
+  .services-tabs{
+    overflow-x:auto;justify-content:flex-start;
+    border:none;gap:.5rem;
+    padding-bottom:.5rem;margin-bottom:2rem;
+    -ms-overflow-style:none;scrollbar-width:none;
+  }
+  .services-tabs::-webkit-scrollbar{display:none;}
+  .s-tab{
+    flex-shrink:0;
+    border:1px solid var(--gold-light)!important;
+    border-right:1px solid var(--gold-light)!important;
+    border-radius:20px!important;
+    padding:.5rem 1.3rem!important;
+    white-space:nowrap;
+  }
+  .s-tab.active{background:var(--gold);border-color:var(--gold)!important;}
+  .services-grid{grid-template-columns:1fr 1fr;gap:1rem;}
+  .svc-img{height:160px;}
+  .svc-body{padding:1.1rem;}
+  .svc-name{font-size:1.1rem;}
+
+  /* RATINGS */
+  #ratings{padding:4rem 1.4rem;}
+  .ratings-avg{flex-direction:column;align-items:center;text-align:center;gap:1rem;}
+  .ratings-right{text-align:center;}
+  .stars-row{justify-content:center;}
+  .ratings-bars{margin:0 auto 1.5rem;}
+  .reviews-grid{grid-template-columns:1fr 1fr;padding:0 0 2rem!important;}
+
+  /* ABOUT */
+  .about-content{padding:3rem 1.5rem;}
+  .about-pillars{gap:1px;}
+
+  /* CTA */
+  #cta{padding:4rem 1.5rem;}
+  .cta-contact{flex-direction:column;gap:1.5rem;}
+  .cta-actions{flex-wrap:wrap;justify-content:center;}
+
+  /* FOOTER */
+  footer{padding:3rem 1.4rem 2rem;}
+  .footer-bottom{flex-direction:column;gap:.4rem;text-align:center;}
+}
+
+@media(max-width:520px){
+  /* Services: single column */
+  .services-grid{grid-template-columns:1fr;}
+  .svc-img{height:200px;}
+
+  /* Ratings: single column */
+  .reviews-grid{grid-template-columns:1fr!important;padding:0 0 2rem!important;}
+
+  /* About pillars: 1 col */
+  .about-pillars{grid-template-columns:1fr;}
+
+  /* Booking widget adjustments */
+  .bw-times{grid-template-columns:repeat(3,1fr);}
+  .bw-stylist{gap:.3rem;}
+  .bw-stylist-av{width:32px;height:32px;}
+  .bw-stylist-name{font-size:.63rem;}
+  #booking{padding:3rem 1rem;}
+
+  /* Footer */
+  .footer-top{grid-template-columns:1fr;}
+
+  /* Hero stats wrap */
+  .hero-stats{flex-wrap:wrap;gap:1.2rem;}
+
+  /* CTA buttons full width */
+  .btn-dark,.btn-outline{width:100%;text-align:center;justify-content:center;}
+
+  /* Review card compact */
+  .review-card{padding:1.2rem;}
+
+  /* Ratings score large number */
+  .ratings-score{font-size:4rem;}
+}
+
 /* ── Reduced motion ── */
 @media(prefers-reduced-motion:reduce){
   .hero-left>*,.sr,.sr-l,.sr-r{opacity:1!important;transform:none!important;animation:none!important;transition:none!important;}
