@@ -524,7 +524,7 @@ nav.nscroll{box-shadow:0 6px 36px rgba(44,30,15,.14);}
 @media(max-width:768px){
   /* Disable mandatory snap on mobile — free scrolling is better UX */
   html{scroll-snap-type:none;}
-  section{scroll-snap-align:none;min-height:auto;}
+  section{scroll-snap-align:none;min-height:auto;overflow:visible;}
   .sdots{display:none;}
 
   /* Hide custom cursor on mobile — restore native pointer */
@@ -577,7 +577,9 @@ nav.nscroll{box-shadow:0 6px 36px rgba(44,30,15,.14);}
   .ratings-bars{margin:0 auto 1.5rem;}
   .reviews-grid{grid-template-columns:1fr 1fr;padding:0 0 2rem!important;}
 
-  /* ABOUT */
+  /* ABOUT — fix single-column cut-off */
+  .about-inner{height:auto;}
+  .about-img-wrap{height:300px;}
   .about-content{padding:3rem 1.5rem;}
   .about-pillars{gap:1px;}
 
