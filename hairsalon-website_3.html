@@ -762,22 +762,105 @@ nav.nscroll{box-shadow:0 6px 36px rgba(44,30,15,.14);}
 .bw-cta:hover{background:var(--charcoal);transform:translateY(-1px);box-shadow:0 6px 18px rgba(44,30,15,.2);}
 .bw-note{font-size:.63rem;color:#b5afa8;margin-top:.6rem;}
 
-/* ── Booking Page Overlay — tighter layout ── */
-.bp-body{grid-template-columns:1fr 1.9fr;}
-.bp-left{padding:2.5rem 2.5rem;}
-.bp-heading{font-size:clamp(1.6rem,2.2vw,2.2rem);margin-bottom:.8rem;}
-.bp-desc{font-size:.8rem;line-height:1.7;margin-bottom:1.2rem;}
-.bp-info-list{margin-top:1.2rem!important;}
-.bp-info-row{padding:.65rem 0;}
-.bp-info-icon{width:30px;height:30px;font-size:.78rem;}
-.bp-info-label{font-size:.6rem;}
-.bp-info-val{font-size:.82rem;}
-.bp-right{padding:1.2rem 2rem 1.5rem;}
-.bp-progress{margin-bottom:1rem;border-radius:3px;}
-.bp-prog-step{padding:.5rem .3rem;font-size:.6rem;letter-spacing:.08em;}
-.bp-right .booking-widget{box-shadow:0 4px 24px rgba(44,30,15,.08);}
-.bp-right .bw-header{padding:.9rem 1.2rem;}
-.bp-right .bw-body{padding:.9rem 1.2rem 1.1rem;}
+/* ── Booking Page Overlay — Premium Redesign ── */
+
+/* Smoother slide-in */
+#bookingPage{transition:transform .6s cubic-bezier(.16,1,.3,1);}
+
+/* Nav bar */
+.bp-nav{
+  padding:.9rem 2.5rem;
+  border-bottom:none;
+  box-shadow:0 1px 0 rgba(201,169,110,.15);
+  min-height:60px;
+}
+.bp-logo{font-size:1.1rem;}
+.bp-close{font-size:.68rem;letter-spacing:.13em;padding:.48rem 1.1rem;border-color:rgba(201,169,110,.28);}
+.bp-close:hover{background:rgba(201,169,110,.06);}
+
+/* Two-column body */
+.bp-body{grid-template-columns:300px 1fr;min-height:calc(100vh - 60px);}
+
+/* Left info panel */
+.bp-left{
+  padding:2rem 1.8rem;
+  top:60px;height:calc(100vh - 60px);
+  background:linear-gradient(155deg,#2c1e0f 0%,#180e06 100%);
+  justify-content:flex-start;
+  overflow-y:auto;
+  gap:0;
+}
+.bp-left .section-tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.58rem;letter-spacing:.2em;
+  margin-bottom:1.2rem;
+}
+.bp-left .section-tag::before{
+  content:'';display:block;width:14px;height:1.5px;
+  background:var(--gold);flex-shrink:0;
+}
+.bp-heading{font-size:clamp(1.45rem,1.75vw,1.9rem);margin-bottom:.5rem;line-height:1.18;}
+.bp-desc{font-size:.77rem;line-height:1.8;color:rgba(250,246,240,.45);margin-bottom:0;}
+.bp-selected-svc{margin-top:1.4rem;padding:.85rem 1rem;border-radius:6px;}
+.bp-selected-svc-label{font-size:.57rem;letter-spacing:.16em;margin-bottom:.35rem;}
+.bp-selected-svc-name{font-size:.96rem;}
+.bp-selected-svc-info{font-size:.72rem;margin-top:.12rem;}
+.bp-info-list{margin-top:1.4rem!important;border-top:1px solid rgba(201,169,110,.1);}
+.bp-info-row{padding:.6rem 0;gap:.75rem;border-bottom:1px solid rgba(201,169,110,.07);}
+.bp-info-icon{width:28px;height:28px;font-size:.72rem;}
+.bp-info-label{font-size:.56rem;letter-spacing:.13em;}
+.bp-info-val{font-size:.79rem;}
+
+/* Right scrollable panel */
+.bp-right{padding:1.5rem 2.5rem 2.5rem;overflow-y:visible;}
+
+/* Step progress bar — numbered circles */
+.bp-progress{
+  display:flex;gap:0;
+  margin-bottom:1.8rem;
+  padding:.75rem 1rem;
+  border:1px solid rgba(201,169,110,.15);
+  border-radius:10px;
+  background:#faf7f3;
+  overflow:visible;
+}
+.bp-prog-step{
+  flex:1;
+  display:flex;flex-direction:column;align-items:center;gap:.32rem;
+  padding:.25rem .1rem;
+  font-size:.57rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--taupe);background:none;border:none;
+}
+.bp-prog-step::before{
+  content:attr(data-step);
+  display:block;
+  width:24px;height:24px;line-height:22px;
+  text-align:center;border-radius:50%;margin:0 auto;
+  font-size:.65rem;font-weight:600;
+  background:#f0ece8;border:1.5px solid #ddd;color:var(--taupe);
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+}
+.bp-prog-step.done{color:var(--gold);}
+.bp-prog-step.done::before{content:'✓';background:rgba(201,169,110,.1);border-color:var(--gold);color:var(--gold);font-size:.5rem;}
+.bp-prog-step.active{color:var(--brown);font-weight:500;}
+.bp-prog-step.active::before{background:var(--gold);border-color:var(--gold);color:#fff;box-shadow:0 2px 8px rgba(201,169,110,.4);transform:scale(1.1);}
+
+/* Remove redundant widget elements in overlay context */
+.bp-right .bw-header{display:none;}
+.bp-right .bw-step{display:none;}
+.bp-right .booking-widget{border:none;border-radius:0;box-shadow:none;background:transparent;max-width:640px;}
+.bp-right .bw-body{padding:0;}
+
+/* Mobile overlay */
+@media(max-width:768px){
+  .bp-body{grid-template-columns:1fr;}
+  .bp-left{position:static;height:auto;padding:1.5rem 1.3rem 1.2rem;}
+  .bp-left .bp-info-list{display:none;}
+  .bp-right{padding:1.2rem 1.2rem 2rem;}
+  .bp-progress{padding:.6rem .5rem;}
+  .bp-prog-step{font-size:.5rem;}
+  .bp-prog-step::before{width:20px;height:20px;line-height:18px;font-size:.6rem;}
+}
 
 /* ── Reduced motion ── */
 @media(prefers-reduced-motion:reduce){
