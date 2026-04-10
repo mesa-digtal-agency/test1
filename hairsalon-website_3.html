@@ -885,14 +885,28 @@ nav.nscroll{box-shadow:0 6px 36px rgba(44,30,15,.14);}
   .booking-h2{font-size:clamp(1.55rem,6vw,1.9rem);}
   .bw-times{grid-template-columns:repeat(3,1fr);}
   /* Overlay */
+  #bookingPage{overflow-x:hidden;}
   .bp-nav{padding:.8rem 1.2rem;}
   .bp-left{padding:1.3rem 1.2rem 1.5rem;}
   .bp-left > .bp-desc{display:none;}
   .bp-info-list{display:none!important;}
-  .bp-right{padding:1.5rem 1.2rem 2.5rem;}
-  .bp-progress{padding:.6rem .5rem;}
-  .bp-prog-step{font-size:.5rem;}
+  .bp-right{padding:1.5rem 1.2rem 2.5rem;overflow-x:hidden;}
+  /* Progress: circles only, hide text labels to prevent overflow */
+  .bp-progress{padding:.5rem .4rem;}
+  .bp-prog-step{font-size:0;min-width:0;gap:.2rem;}
   .bp-prog-step::before{width:22px;height:22px;line-height:20px;font-size:.62rem;}
+  /* Stack 2-column form grids on mobile (inline styles) */
+  .bp-right .bw-body > div[style*="grid-template-columns"]{
+    display:flex!important;
+    flex-direction:column!important;
+  }
+  /* Prevent inputs overflowing */
+  .bp-right input,.bp-right textarea{
+    min-width:0;width:100%;box-sizing:border-box;
+  }
+  /* Wrap stylist row */
+  .bp-right .bw-stylist{flex-wrap:wrap;}
+  .bp-right .bw-stylist-item{flex:1 1 calc(50% - .3rem);min-width:0;}
 }
 
 /* ── Reduced motion ── */
